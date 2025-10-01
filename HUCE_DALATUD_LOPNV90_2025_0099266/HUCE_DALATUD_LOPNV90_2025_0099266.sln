@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HUCE_DALATUD_LOPNV90_2025_0099266", "HUCE_DALATUD_LOPNV90_2025_0099266.csproj", "{FB6CFA6A-02A4-4F6B-901B-2EF90726E1C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB6CFA6A-02A4-4F6B-901B-2EF90726E1C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB6CFA6A-02A4-4F6B-901B-2EF90726E1C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB6CFA6A-02A4-4F6B-901B-2EF90726E1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB6CFA6A-02A4-4F6B-901B-2EF90726E1C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54E6692C-A8C4-4A97-B5FE-8CFA7A66AB9D}
+	EndGlobalSection
+EndGlobal
