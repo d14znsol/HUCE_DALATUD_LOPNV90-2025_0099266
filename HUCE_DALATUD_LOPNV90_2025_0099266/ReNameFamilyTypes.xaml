@@ -48,7 +48,29 @@
                 <Button Content="SHOW ALL" Command="{Binding ShowAllCommand}"/>
             </StackPanel>
         </StackPanel>
+        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding FamilyTypes}" 
+      AutoGenerateColumns="False" Margin="10,10,10,10" CanUserResizeColumns="True" 
+      EnableRowVirtualization="True" VirtualizingStackPanel.IsVirtualizing="True">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Width="50" Header="Select"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
+                <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName}" Width="200"/>
+                <DataGridTextColumn Header="Type Name" Binding="{Binding TypeName}" Width="200"/>
+                <DataGridTextColumn Header="New Type Name Preview" Binding="{Binding NewTypeName}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Rename Rules" Margin="10">
+            <StackPanel Orientation="Vertical">
+                <!-- Prefix -->
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Remove First:" Width="100"/>
+                    <TextBox Text="{Binding RemoveFirst, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                    <TextBlock Text="Add Prefix:" Width="100" Margin="10,0,0,0"/>
+                    <TextBox Text="{Binding AddPrefix, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                </StackPanel>
+            </StackPanel>
 
+        </GroupBox>
     </Grid>
     
 </Window>
