@@ -60,6 +60,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ReNameFamilies.xaml.cs">
+      <DependentUpon>ReNameFamilies.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReNameFamilyTypes.xaml.cs">
       <DependentUpon>ReNameFamilyTypes.xaml</DependentUpon>
     </Compile>
@@ -95,6 +98,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MAINWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReNameFamilies.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
