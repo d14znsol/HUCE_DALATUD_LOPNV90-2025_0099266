@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
     /// <summary>
-    /// Interaction logic for MAINWindow.xaml
+    /// Interaction logic for ReNameFamilyTypes.xaml
     /// </summary>
-    public partial class MAINWindow : Window
+    public partial class ReNameFamilyTypes : Window
     {
-        public MAINWindow()
+        public ReNameFamilyTypes()
         {
             InitializeComponent();
         }
