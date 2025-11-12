@@ -29,8 +29,9 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -40,12 +41,12 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="10">
             <TextBlock Text="Rename Family Types" FontSize="16" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <ComboBox Width="200" ItemsSource="{Binding Categories}" SelectedItem="{Binding FilterCategory}" 
+                <ComboBox Width="100" ItemsSource="{Binding Categories}" SelectedItem="{Binding FilterCategory}" 
                ToolTip="Select a category to filter"/>
-                <TextBox Width="200" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" 
+                <TextBox Width="100" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" 
               ToolTip="Enter text to filter type names"/>
                 <Button Content="Filter" Command="{Binding FilterCommand}"/>
-                <Button Content="SHOW ALL" Command="{Binding ShowAllCommand}"/>
+                <Button Content="SHOW ALL" Margin="0 0 0 0" Command="{Binding ShowAllCommand}"/>
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding FamilyTypes}" 
@@ -59,6 +60,12 @@
                 <DataGridTextColumn Header="New Type Name Preview" Binding="{Binding NewTypeName}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
+            <Button Content="CHECK ALL" Command="{Binding CheckAllCommand}"/>
+            <Button Content="UNCHECK ALL" Command="{Binding UncheckAllCommand}"/>
+            <TextBlock Text="{Binding CheckedCount, StringFormat=Checked family types: {0} / {1}, ConverterParameter=FamilyTypes.Count}" 
+            Margin="20,0,0,0"/>
+        </StackPanel>
         <GroupBox Grid.Row="1" Grid.Column="1" Header="Rename Rules" Margin="10">
             <StackPanel Orientation="Vertical">
                 <!-- Prefix -->
