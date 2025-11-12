@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <!-- Tiêu đề -->
-            <TextBlock Grid.Row="0" Text="Prorename Tool" FontSize="26" FontWeight="SemiBold"
+            <TextBlock Grid.Row="0" Text="ProRename Tool" FontSize="26" FontWeight="SemiBold"
                        HorizontalAlignment="Center" Margin="0 0 0 20" Foreground="#0078D4"/>
 
             <!-- Các button sử dụng MVVM Command -->

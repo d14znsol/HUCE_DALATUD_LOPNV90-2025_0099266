@@ -54,10 +54,10 @@
       EnableRowVirtualization="True" VirtualizingStackPanel.IsVirtualizing="True">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Width="50" Header="Select"/>
-                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
-                <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName}" Width="200"/>
-                <DataGridTextColumn Header="Type Name" Binding="{Binding TypeName}" Width="200"/>
-                <DataGridTextColumn Header="New Type Name Preview" Binding="{Binding NewTypeName}" Width="*"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="auto"/>
+                <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName}" Width="auto"/>
+                <DataGridTextColumn Header="Type Name" Binding="{Binding TypeName}" Width="auto"/>
+                <DataGridTextColumn Header="New Type Name Preview" Binding="{Binding NewTypeName}" Width="auto"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
