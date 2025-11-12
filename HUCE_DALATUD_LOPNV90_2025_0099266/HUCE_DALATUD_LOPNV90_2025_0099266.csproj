@@ -60,18 +60,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ReNameFamilies.xaml.cs">
+    <Compile Include="Views\ReNameFamilies.xaml.cs">
       <DependentUpon>ReNameFamilies.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReNameFamilyTypes.xaml.cs">
+    <Compile Include="Views\ReNameFamilyTypes.xaml.cs">
       <DependentUpon>ReNameFamilyTypes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReNameLevels.xaml.cs">
+    <Compile Include="Views\ReNameLevels.xaml.cs">
       <DependentUpon>ReNameLevels.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MAINWindow.xaml.cs">
+    <Compile Include="Views\MAINWindow.xaml.cs">
       <DependentUpon>MAINWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -100,22 +100,26 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MAINWindow.xaml">
+    <Page Include="Views\MAINWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ReNameFamilies.xaml">
+    <Page Include="Views\ReNameFamilies.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ReNameFamilyTypes.xaml">
+    <Page Include="Views\ReNameFamilyTypes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ReNameLevels.xaml">
+    <Page Include="Views\ReNameLevels.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
