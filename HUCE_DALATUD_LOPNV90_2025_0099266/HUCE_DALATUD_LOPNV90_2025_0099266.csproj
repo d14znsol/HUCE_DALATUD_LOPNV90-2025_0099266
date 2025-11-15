@@ -71,6 +71,9 @@
     <Compile Include="Views\ReNameLevels.xaml.cs">
       <DependentUpon>ReNameLevels.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReNameViews.xaml.cs">
+      <DependentUpon>ReNameViews.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Views\MAINWindow.xaml.cs">
@@ -115,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReNameLevels.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReNameViews.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
