@@ -19,7 +19,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         {
             OpenRenameFamiliesCommand = new RelayCommand(OpenRenameFamilies);
             OpenRenameTypesFamilyCommand = new RelayCommand(OpenRenameTypesFamily);
-           // OpenRenameViewsCommand = new RelayCommand(OpenRenameViews);
+            OpenRenameViewsCommand = new RelayCommand(OpenRenameViews);
             OpenRenameLevelsCommand = new RelayCommand(OpenRenameLevels);
         }
 
@@ -35,11 +35,11 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             renameTypesFamilyWindow.Show();
         }
 
-        //private void OpenRenameViews()
-        //{
-           // var renameViewsWindow = new ReNameViews();
-           // renameViewsWindow.Show();
-      //  }
+        private void OpenRenameViews()
+        {
+           var renameViewsWindow = new ReNameViews();
+           renameViewsWindow.Show();
+       }
 
         private void OpenRenameLevels()
         {
