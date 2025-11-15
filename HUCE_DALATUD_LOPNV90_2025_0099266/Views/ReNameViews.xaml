@@ -5,8 +5,131 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HUCE_DALATUD_LOPNV90_2025_0099266.Views"
         mc:Ignorable="d"
-        Title="ReNameViews" Height="450" Width="800">
-    <Grid>
+        Title="ReNameViews" Height="450" Width="800"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
         
-    </Grid>
+ <Window.Resources>
+<!-- Style cho Button -->
+<Style TargetType="Button">
+    <Setter Property="Background" Value="#4A90E2"/>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="Padding" Value="5,2"/>
+    <Setter Property="Margin" Value="0,0,10,0"/>
+    <Setter Property="Width" Value="100"/>
+    <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+            <Setter Property="Background" Value="#357ABD"/>
+        </Trigger>
+    </Style.Triggers>
+</Style>
+<!-- Style cho TextBox -->
+<Style TargetType="TextBox">
+    <Setter Property="Margin" Value="0,0,10,0"/>
+    <Setter Property="Width" Value="100"/>
+</Style>
+</Window.Resources>
+<Grid>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="117*"/>
+        <ColumnDefinition Width="533*"/>
+        <ColumnDefinition Width="502*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <!-- Tiêu đề và bộ lọc -->
+    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="10,10,10,10" Grid.ColumnSpan="2">
+        <TextBlock Text="Rename Views" FontSize="16" FontWeight="Bold"/>
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <ComboBox Width="200" ItemsSource="{Binding Categories}" SelectedItem="{Binding FilterCategory}" 
+                      ToolTip="Select a category to filter"/>
+            <TextBox Width="200" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" 
+                     ToolTip="Enter text to filter type names"/>
+            <Button Content="Filter" Command="{Binding FilterCommand}"/>
+            <Button Content="SHOW ALL" Command="{Binding ShowAllCommand}"/>
+        </StackPanel>
+    </StackPanel>
+
+    <!-- Bảng dữ liệu với VirtualizingStackPanel -->
+    <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding FamilyTypes}" 
+              AutoGenerateColumns="False" Margin="10,10,10,10" CanUserResizeColumns="True" 
+              EnableRowVirtualization="True" VirtualizingStackPanel.IsVirtualizing="True" Grid.ColumnSpan="2">
+        <DataGrid.Columns>
+            <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Width="50" Header="Select"/>
+            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
+            <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName}" Width="200"/>
+            <DataGridTextColumn Header="View Name" Binding="{Binding TypeName}" Width="200"/>
+            <DataGridTextColumn Header="New View Name Preview" Binding="{Binding NewTypeName}" Width="*"/>
+        </DataGrid.Columns>
+    </DataGrid>
+
+    <!-- Nút Check All / Uncheck All và thống kê -->
+    <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
+        <Button Content="CHECK ALL" Command="{Binding CheckAllCommand}"/>
+        <Button Content="UNCHECK ALL" Command="{Binding UncheckAllCommand}"/>
+        <TextBlock Text="{Binding CheckedCount, StringFormat=Checked family types: {0} / {1}, ConverterParameter=FamilyTypes.Count}" 
+                   Margin="20,0,0,0"/>
+    </StackPanel>
+
+    <!-- Quy tắc đổi tên với DataTrigger -->
+    <GroupBox Grid.Row="1" Grid.Column="2" Header="Rename Rules" Margin="10,10,10,10">
+        <StackPanel Orientation="Vertical">
+            <!-- Prefix -->
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <TextBlock Text="Remove First:" Width="100"/>
+                <TextBox Text="{Binding RemoveFirst, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                <TextBlock Text="Add Prefix:" Width="100" Margin="10,0,0,0"/>
+                <TextBox Text="{Binding AddPrefix, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+            </StackPanel>
+            <!-- Suffix -->
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <TextBlock Text="Remove Last:" Width="100"/>
+                <TextBox Text="{Binding RemoveLast, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                <TextBlock Text="Add Suffix:" Width="100" Margin="10,0,0,0"/>
+                <TextBox Text="{Binding AddSuffix, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+            </StackPanel>
+            <!-- Find and Replace -->
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <TextBlock Text="Find Text:" Width="100"/>
+                <TextBox Text="{Binding FindText, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                <TextBlock Text="Replace With:" Width="100" Margin="10,0,0,0"/>
+                <TextBox Text="{Binding ReplaceWith, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+            </StackPanel>
+            <!-- Modify at Index -->
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <TextBlock Text="Start at Index:" Width="100"/>
+                <TextBox Text="{Binding StartIndex, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                <TextBlock Text="Remove:" Width="50" Margin="10,0,0,0"/>
+                <TextBox Text="{Binding RemoveCount, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                <TextBlock Text="Add Text:" Width="70" Margin="10,0,0,0"/>
+                <TextBox Text="{Binding AddText, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+            </StackPanel>
+            <!-- Tùy chọn -->
+            <StackPanel Orientation="Horizontal" Margin="0,5">
+                <CheckBox IsChecked="{Binding ToUppercase}" Content="To Uppercase"/>
+                <CheckBox IsChecked="{Binding Lowercase}" Content="To Lowercase"/>
+                <CheckBox IsChecked="{Binding RemoveDiacritics}" Content="Remove Diacritics" Margin="10,0,0,0"/>
+                <CheckBox IsChecked="{Binding ISO19650}" Content="ISO19650 Report" Margin="10,0,0,0"/>
+            </StackPanel>
+            <!-- ProgressBar với DataTrigger -->
+            <ProgressBar Height="20" Width="150">
+                <ProgressBar.Style>
+                    <Style TargetType="ProgressBar">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
+            <!-- Nút Rename -->
+            <Button Content="Rename" Command="{Binding RenameCommand}" Margin="0,10,0,0" Width="100" HorizontalAlignment="Right"/>
+        </StackPanel>
+    </GroupBox>
+</Grid>
 </Window>
