@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HUCE_DALATUD_LOPNV90_2025_0099266
+namespace HUCE_DALATUD_LOPNV90_2025_0099266.Views   
 {
     /// <summary>
-    /// Interaction logic for ReNameFamilies.xaml
+    /// Interaction logic for ReNameLevels.xaml
     /// </summary>
-    public partial class ReNameFamilies : Window
+    public partial class ReNameLevels : Window
     {
-        public ReNameFamilies()
+        public ReNameLevels()
         {
             InitializeComponent();
         }

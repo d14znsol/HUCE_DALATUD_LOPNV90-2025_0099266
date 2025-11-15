@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HUCE_DALATUD_LOPNV90_2025_0099266
+namespace HUCE_DALATUD_LOPNV90_2025_0099266.Views
 {
     /// <summary>
     /// Interaction logic for MAINWindow.xaml
@@ -22,6 +23,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
         public MAINWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
     }
 }
