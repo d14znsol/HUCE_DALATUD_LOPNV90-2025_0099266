@@ -23,7 +23,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.Views
         public MAINWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            DataContext = new MainWindowViewModels();
         }
     }
 }

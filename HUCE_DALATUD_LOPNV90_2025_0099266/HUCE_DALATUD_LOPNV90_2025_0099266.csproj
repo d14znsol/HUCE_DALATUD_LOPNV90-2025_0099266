@@ -75,7 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModels.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="Views\ReNameFamilies.xaml.cs">
       <DependentUpon>ReNameFamilies.xaml</DependentUpon>

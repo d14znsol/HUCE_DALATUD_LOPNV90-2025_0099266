@@ -8,14 +8,14 @@ using System.Windows.Input;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 {
-    internal class MainWindowViewModel
+    internal class MainWindowViewModels
     {
         public ICommand OpenRenameFamiliesCommand { get; set; }
         public ICommand OpenRenameTypesFamilyCommand { get; set; }
         public ICommand OpenRenameViewsCommand { get; set; }
         public ICommand OpenRenameLevelsCommand { get; set; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModels()
         {
             OpenRenameFamiliesCommand = new RelayCommand(OpenRenameFamilies);
             OpenRenameTypesFamilyCommand = new RelayCommand(OpenRenameTypesFamily);
