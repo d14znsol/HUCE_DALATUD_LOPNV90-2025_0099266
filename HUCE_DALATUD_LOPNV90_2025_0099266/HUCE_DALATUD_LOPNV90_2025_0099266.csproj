@@ -35,7 +35,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
+    <Reference Include="RevitAPI">
+      <HintPath>E:\Revit\Revit 2024\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>E:\Revit\Revit 2024\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -75,8 +88,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Command\CmdProRename.cs" />
     <Compile Include="ViewModels\MainWindowViewModels.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Views\ReNameFamilies.xaml.cs">
       <DependentUpon>ReNameFamilies.xaml</DependentUpon>
     </Compile>
@@ -116,6 +130,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="ProRename.addin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
