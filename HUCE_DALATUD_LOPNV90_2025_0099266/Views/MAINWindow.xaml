@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HUCE_DALATUD_LOPNV90_2025_0099266"
         Title="Prorename Tool" Height="400" Width="600"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        WindowStyle="ToolWindow" AllowsTransparency="False"
+        AllowsTransparency="False"
         Background="Transparent">
     <Border CornerRadius="20"   Background="#F8F9FA" BorderBrush="#E0E0E0" BorderThickness="1">
         <Grid Margin="20">
