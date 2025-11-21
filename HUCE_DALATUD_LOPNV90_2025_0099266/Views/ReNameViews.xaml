@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:HUCE_DALATUD_LOPNV90_2025_0099266.Views"
         mc:Ignorable="d"
         Title="ReNameViews" MinHeight="400" MinWidth="800"
@@ -78,36 +79,51 @@
     <GroupBox Grid.Row="1" Grid.Column="2" Header="Rename Rules" Margin="10,10,10,10">
         <StackPanel Orientation="Vertical">
             <!-- Prefix -->
+                <GroupBox Header="Prefix">
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Remove First:" Width="100"/>
-                <TextBox Text="{Binding RemoveFirst, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
-                <TextBlock Text="Add Prefix:" Width="100" Margin="10,0,0,0"/>
+                <TextBlock Text="Remove First:" Width="100" Height="20"/>
+                    <xctk:IntegerUpDown Text="{Binding RemoveFirst, UpdateSourceTrigger=PropertyChanged}" Width="38"/>
+                
+                <TextBlock Text="Add Prefix:" Width="100" Margin="80,0,0,0"/>
                 <TextBox Text="{Binding AddPrefix, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
             </StackPanel>
-            <!-- Suffix -->
+                </GroupBox>
+                <!-- Suffix -->
+                <GroupBox Header="Suffix">
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <TextBlock Text="Remove Last:" Width="100"/>
-                <TextBox Text="{Binding RemoveLast, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
-                <TextBlock Text="Add Suffix:" Width="100" Margin="10,0,0,0"/>
+                    <xctk:IntegerUpDown Text="{Binding RemoveFirst, UpdateSourceTrigger=PropertyChanged}" Width="38"/>
+                    
+                <TextBlock Text="Add Suffix:" Width="100" Margin="80,0,0,0"/>
                 <TextBox Text="{Binding AddSuffix, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
             </StackPanel>
-            <!-- Find and Replace -->
+                </GroupBox>
+                <!-- Find and Replace -->
+                <GroupBox Header="Find and replace">
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <TextBlock Text="Find Text:" Width="100"/>
                 <TextBox Text="{Binding FindText, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
-                <TextBlock Text="Replace With:" Width="100" Margin="10,0,0,0"/>
+                <TextBlock Text="Replace With:" Width="100" Margin="8,0,0,0"/>
                 <TextBox Text="{Binding ReplaceWith, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
             </StackPanel>
-            <!-- Modify at Index -->
+                </GroupBox>
+                <!-- Modify at Index -->
+                <GroupBox Header="Modify at index">
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Start at Index:" Width="100"/>
-                <TextBox Text="{Binding StartIndex, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
-                <TextBlock Text="Remove:" Width="50" Margin="10,0,0,0"/>
-                <TextBox Text="{Binding RemoveCount, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
-                <TextBlock Text="Add Text:" Width="70" Margin="10,0,0,0"/>
-                <TextBox Text="{Binding AddText, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
-            </StackPanel>
-            <!-- Tùy chọn -->
+                    <StackPanel HorizontalAlignment="Left">
+                        <TextBlock Text="Start at Index:" HorizontalAlignment="Left" Width="100" Margin="0 0 0 0 "/>
+                        <xctk:IntegerUpDown HorizontalAlignment="Left" Text="{Binding RemoveFirst, UpdateSourceTrigger=PropertyChanged}" Width="38"/>
+
+                        <TextBlock Text="Remove:" HorizontalAlignment="Left" Width="50" Margin="0,0,0,0"/>
+                        <xctk:IntegerUpDown HorizontalAlignment="Left" Text="{Binding RemoveFirst, UpdateSourceTrigger=PropertyChanged}" Width="38"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="120 0 0 20">
+                        <TextBlock HorizontalAlignment="Left" Text="Add Text:" Height="20"/>
+                        <TextBox Text="{Binding AddText, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="20" Margin="50 0 0 0 "/>
+                    </StackPanel>
+                </StackPanel>
+                </GroupBox>
+                <!-- Tùy chọn -->
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <CheckBox IsChecked="{Binding ToUppercase}" Content="To Uppercase"/>
                 <CheckBox IsChecked="{Binding Lowercase}" Content="To Lowercase"/>
