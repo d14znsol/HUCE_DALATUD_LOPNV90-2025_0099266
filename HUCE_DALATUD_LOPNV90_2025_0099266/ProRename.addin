@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<!-- Tên hiện trong Revit -->
+		<Name>ProRename</Name>
+
+		<!-- namespace + tên class IExternalCommand -->
+		<FullClassName>ProRename.Addin.CmdProRename</FullClassName>
+
+		<!-- hiện thị mô tả (không bắt buộc) -->
+		<Text>ProRename Tool</Text>
+
+		<!-- Đường dẫn TỚI FILE exe hoặc dll mà project build ra -->
+		<Assembly>
+			F:\Học tập\Đồ án lập trình ứng dụng trong xây dựng\HUCE_DALATUD_LOPNV90-2025_0099266\HUCE_DALATUD_LOPNV90_2025_0099266\bin\Debug\HUCE_DALATUD_LOPNV90_2025_0099266.exe
+		</Assembly>
+
+		<!-- ID có dạng GUID, dùng cái bạn đang để cũng được -->
+		<AddInId>bbbb35fb-3207-48c5-bef9-82eef5e666e4</AddInId>
+
+		<VendorId>Idnz</VendorId>
+		<VendorDescription>Independent Developer</VendorDescription>
+	</AddIn>
+</RevitAddIns>

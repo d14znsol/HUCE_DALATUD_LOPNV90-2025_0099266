@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
+namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
     internal class RelayCommand: ICommand
     {
