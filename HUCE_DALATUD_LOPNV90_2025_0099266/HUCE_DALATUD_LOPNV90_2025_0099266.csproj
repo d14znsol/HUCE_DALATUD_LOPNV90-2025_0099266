@@ -5,8 +5,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FB6CFA6A-02A4-4F6B-901B-2EF90726E1C0}</ProjectGuid>
-	  <OutputType>Library</OutputType>
-	  <RootNamespace>HUCE_DALATUD_LOPNV90_2025_0099266</RootNamespace>
+    <OutputType>Library</OutputType>
+    <RootNamespace>HUCE_DALATUD_LOPNV90_2025_0099266</RootNamespace>
     <AssemblyName>HUCE_DALATUD_LOPNV90_2025_0099266</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\CmdProRename.cs" />
+    <Compile Include="Models\App.cs" />
     <Compile Include="ViewModels\MainWindowViewModels.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Views\ReNameFamilies.xaml.cs">
@@ -156,8 +157,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

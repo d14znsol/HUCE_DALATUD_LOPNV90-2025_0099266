@@ -8,7 +8,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using HUCE_DALATUD_LOPNV90_2025_0099266.Views;
 
-namespace HUCE_DALATUD_LOPNV90_2025_0099266.Addin
+namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
     [Transaction(TransactionMode.Manual)]
     public class CmdProRename : IExternalCommand

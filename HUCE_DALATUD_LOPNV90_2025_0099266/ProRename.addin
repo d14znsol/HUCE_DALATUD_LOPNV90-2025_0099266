@@ -1,22 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
-	<AddIn Type="Command">
-		<!-- Tên hiện trong Revit -->
-		<Name>ProRename</Name>
 
-		<!-- namespace + tên class IExternalCommand -->
-		<FullClassName>HUCE_DALATUD_LOPNV90_2025_0099266.Addin.CmdProRename</FullClassName>
-
-		<!-- hiện thị mô tả (không bắt buộc) -->
-		<Text>ProRename Tool</Text>
-
-		<!-- Đường dẫn TỚI FILE exe hoặc dll mà project build ra -->
-		<Assembly>
-			F:\Học tập\Đồ án lập trình ứng dụng trong xây dựng\HUCE_DALATUD_LOPNV90-2025_0099266\HUCE_DALATUD_LOPNV90_2025_0099266\bin\Debug\HUCE_DALATUD_LOPNV90_2025_0099266.dll
-			<!-- ID có dạng GUID, dùng cái bạn đang để cũng được -->
-			<AddInId>c2e05fda-adba-4120-bab8-bf7543323b82</AddInId>
-		</Assembly>
-		<VendorId>Idnz</VendorId>
-		<VendorDescription>Independent Developer</VendorDescription>
+	<AddIn Type="Application">
+		<Name>HUCE Ribbon</Name>
+		<Assembly>C:\ProgramData\Autodesk\Revit\Addins\2024\HUCE_ProRename\HUCE_DALATUD_LOPNV90_2025_0099266.dll</Assembly>
+		<AddInId>d5c86165-c1ae-4f41-85cf-c1f011cee385</AddInId>
+		<FullClassName>HUCE_DALATUD_LOPNV90_2025_0099266.App</FullClassName>
+		<VendorId>HUCE</VendorId>
+		<VendorDescription>HUCE Rename Tools</VendorDescription>
 	</AddIn>
+
+	<AddIn Type="Command">
+		<Name>Pro Rename</Name>
+		<Assembly>C:\ProgramData\Autodesk\Revit\Addins\2024\HUCE_ProRename\HUCE_DALATUD_LOPNV90_2025_0099266.dll</Assembly>
+		<AddInId>60c81aa4-80de-4ed3-b63d-04be01adf77e</AddInId>
+		<FullClassName>HUCE_DALATUD_LOPNV90_2025_0099266.CmdProRename</FullClassName>
+		<VendorId>HUCE</VendorId>
+		<VendorDescription>HUCE Rename Tools</VendorDescription>
+		<Text>Pro Rename</Text>
+	</AddIn>
+
 </RevitAddIns>
+
