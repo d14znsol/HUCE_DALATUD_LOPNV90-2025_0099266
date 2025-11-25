@@ -86,10 +86,11 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                     btn.ToolTip = "Đổi tên Family / Type / Level / View";
 
                     string iconPath = Path.Combine(
-                        Path.GetDirectoryName(assemblyPath) ?? "",
-                        "Resources",
-                        "rename32.png"
-                    );
+                    Path.GetDirectoryName(assemblyPath) ?? "",
+                     "Resource",
+                     "Icons",
+                        "Rename.png"
+ );
 
                     if (File.Exists(iconPath))
                     {
@@ -97,8 +98,9 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                         img.BeginInit();
                         img.UriSource = new Uri(iconPath, UriKind.Absolute);
                         img.EndInit();
-                        btn.LargeImage = img;
+                        btn.LargeImage = img;   // icon 32x32 cho ribbon
                     }
+
                 }
 
                 return Result.Succeeded;
