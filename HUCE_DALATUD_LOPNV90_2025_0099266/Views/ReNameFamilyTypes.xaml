@@ -94,7 +94,7 @@
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
             <Button Content="Check all" Height="Auto" Command="{Binding CheckAllCommand}"/>
             <Button Content="Uncheck all" Height="auto" Command="{Binding UncheckAllCommand}"/>
-            <TextBlock Text="{Binding CheckedCount, StringFormat=Checked family types: {0} / {1}, ConverterParameter=FamilyTypes.Count}" 
+            <TextBlock Text="{Binding CheckedCount, StringFormat=Checked Re FamilyTypes: {0} / {1}, ConverterParameter=ReFamilyTypes.Count}" 
             Margin="20,0,0,0"/>
         </StackPanel>
         <!-- Quy tắc đổi tên với DataTrigger -->
