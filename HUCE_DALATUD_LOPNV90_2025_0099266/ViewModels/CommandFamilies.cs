@@ -34,6 +34,12 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 
             // Lấy Family
             var families = new FilteredElementCollector(_doc).OfClass(typeof(Family)).Cast<Family>().ToList();
+            foreach (var family in families)
+            {
+                FamilyList.Add(family); // Nạp vào danh sách để ComboBox hiển thị
+            }
+
+
 
             // Lấy Family Type
             var types = new FilteredElementCollector(_doc).OfClass(typeof(ElementType)).Cast<ElementType>().ToList();
