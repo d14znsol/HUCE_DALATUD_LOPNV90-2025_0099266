@@ -23,5 +23,10 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.Views
         {
             InitializeComponent();
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
