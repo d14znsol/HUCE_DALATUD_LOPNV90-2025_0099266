@@ -1,28 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using Autodesk.Revit.DB;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
     public class FamilyTypeModels : INotifyPropertyChanged
     {
+        // ID của FamilySymbol (type) — dùng để apply rename / tìm lại trong Document
+        public ElementId SymbolId { get; }
+
         private bool _isSelected;
         public bool IsSelected
         {
             get => _isSelected;
             set
             {
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                }
             }
         }
 
-        public string Category { get; set; }
-        public string FamilyName { get; set; }
-        public string TypeName { get; set; }
+        public string Category { get; }
+
+        public string FamilyName { get; }
+
+        private string _typeName;
+        public string TypeName
+        {
+            get => _typeName;
+            set
+            {
+                if (_typeName != value)
+                {
+                    _typeName = value;
+                    OnPropertyChanged(nameof(TypeName));
+                }
+            }
+        }
 
         private string _newTypeName;
         public string NewTypeName
@@ -30,20 +46,29 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             get => _newTypeName;
             set
             {
-                _newTypeName = value;
-                OnPropertyChanged(nameof(NewTypeName));
-                if (ViewModel != null) NewTypeName = ViewModel.ApplyRenameRules(TypeName);
+                if (_newTypeName != value)
+                {
+                    _newTypeName = value;
+                    OnPropertyChanged(nameof(NewTypeName));
+                }
             }
         }
 
-        public RenameFamilyTypesViewModel ViewModel { get; set; }
+        public FamilyTypeModels(FamilySymbol symbol)
+        {
+            SymbolId = symbol.Id;
+            FamilyName = symbol.FamilyName;             // từ Revit API: FamilySymbol.FamilyName :contentReference[oaicite:1]{index=1}
+            TypeName = symbol.Name;                      // tên type hiện tại
+            NewTypeName = TypeName;                      // mặc định, preview = hiện tại
+            IsSelected = false;
+
+            Category = symbol.Family.FamilyCategory?.Name ?? ""; // lấy category — nếu muốn lọc theo category
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }
-
-

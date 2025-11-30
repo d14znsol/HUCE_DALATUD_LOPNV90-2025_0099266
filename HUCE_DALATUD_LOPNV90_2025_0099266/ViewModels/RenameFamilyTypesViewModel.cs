@@ -1,27 +1,62 @@
-﻿using HUCE_DALATUD_LOPNV90_2025_0099266;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using Revit = Autodesk.Revit;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
-namespace HUCE_DALATUD_LOPNV90_2025_0099266
+namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 {
     public class RenameFamilyTypesViewModel : INotifyPropertyChanged
     {
-        private readonly Revit.DB.Document _doc;
-        private bool _isLoading;
+        private readonly Document _doc;
 
-        public ObservableCollection<FamilyTypeModels> ReFamilyTypes { get; set; }
-        public ObservableCollection<string> Categories { get; set; }
-        public string FilterCategory { get; set; }
-        public string FilterText { get; set; }
+        public ObservableCollection<FamilyTypeModels> ReFamilyTypes { get; }
+            = new ObservableCollection<FamilyTypeModels>();
+
+        private string _filterText;
+        public string FilterText
+        {
+            get => _filterText;
+            set
+            {
+                if (_filterText != value)
+                {
+                    _filterText = value;
+                    OnPropertyChanged(nameof(FilterText));
+                }
+            }
+        }
+
+        private string _filterCategory;
+        public string FilterCategory
+        {
+            get => _filterCategory;
+            set
+            {
+                if (_filterCategory != value)
+                {
+                    _filterCategory = value;
+                    OnPropertyChanged(nameof(FilterCategory));
+                    ApplyFilter();
+                }
+            }
+        }
+
+        public ObservableCollection<string> Categories { get; }
+            = new ObservableCollection<string>();
+
+        public ICommand FilterCommand { get; }
+        public ICommand ShowAllCommand { get; }
+        public ICommand CheckAllCommand { get; }
+        public ICommand UncheckAllCommand { get; }
+        public ICommand RenameCommand { get; }
+
+        // Các thuộc tính rename rule — tương ứng với UI của bạn
         public int RemoveFirst { get; set; }
-        public string AddPrefix { get; set; }
         public int RemoveLast { get; set; }
+        public string AddPrefix { get; set; }
         public string AddSuffix { get; set; }
         public string FindText { get; set; }
         public string ReplaceWith { get; set; }
@@ -29,171 +64,161 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
         public int RemoveCount { get; set; }
         public string AddText { get; set; }
         public bool ToUppercase { get; set; }
+        public bool Lowercase { get; set; }
         public bool RemoveDiacritics { get; set; }
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set
-            {
-                _isLoading = value;
-                OnPropertyChanged(nameof(IsLoading));
-            }
-        }
+        public bool ISO19650 { get; set; }
 
-        public ICommand FilterCommand { get; private set; }
-        public ICommand ShowAllCommand { get; private set; }
-        public ICommand CheckAllCommand { get; private set; }
-        public ICommand UncheckAllCommand { get; private set; }
-        public ICommand RenameCommand { get; private set; }
-
-        public RenameFamilyTypesViewModel(Revit.DB.Document doc)
+        public RenameFamilyTypesViewModel(Document doc)
         {
             _doc = doc ?? throw new ArgumentNullException(nameof(doc));
-            ReFamilyTypes = new ObservableCollection<FamilyTypeModels>();
-            Categories = new ObservableCollection<string>();
-            LoadData();
-            InitializeCommands();
-        }
 
-        private void LoadData()
-        {
-            IsLoading = true;
-            try
-            {
-                var collector = new Revit.DB.FilteredElementCollector(_doc).OfClass(typeof(Revit.DB.ElementType));
-                var familyTypes = collector.Cast<Revit.DB.ElementType>()
-                    .Where(e => e.FamilyName != null)
-                    .ToList();
+            LoadFamilyTypes();
 
-                Categories.Clear();
-                var uniqueCategories = familyTypes.Select(e => e.Category?.Name).Distinct().Where(c => c != null);
-                foreach (var category in uniqueCategories)
-                    Categories.Add(category);
-
-                ReFamilyTypes.Clear();
-                foreach (var type in familyTypes)
-                {
-                    var info = new FamilyTypeModels
-                    {
-                        Category = type.Category?.Name ?? "Unknown",
-                        FamilyName = type.FamilyName,
-                        TypeName = type.Name,
-                        NewTypeName = ApplyRenameRules(type.Name),
-                        ViewModel = this
-                    };
-                    ReFamilyTypes.Add(info);
-                }
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
-
-        private void InitializeCommands()
-        {
-            FilterCommand = new RelayCommand(() => _ = Task.Run(DebounceFilter));
+            FilterCommand = new RelayCommand(ApplyFilter);
             ShowAllCommand = new RelayCommand(ShowAll);
-            CheckAllCommand = new RelayCommand(() => ReFamilyTypes.ToList().ForEach(t => t.IsSelected = true));
-            UncheckAllCommand = new RelayCommand(() => ReFamilyTypes.ToList().ForEach(t => t.IsSelected = false));
+            CheckAllCommand = new RelayCommand(CheckAll);
+            UncheckAllCommand = new RelayCommand(UncheckAll);
             RenameCommand = new RelayCommand(ExecuteRename, CanExecuteRename);
+
+            CollectCategories();
         }
 
-        private async void DebounceFilter()
+        private void LoadFamilyTypes()
         {
-            await Task.Delay(300); // Debounce 300ms
-            ApplyFilter();
+            // Lấy tất cả FamilySymbol trong doc
+            var collector = new FilteredElementCollector(_doc)
+                .OfClass(typeof(FamilySymbol))
+                .Cast<FamilySymbol>();
+
+            foreach (var symbol in collector)
+            {
+                var model = new FamilyTypeModels(symbol);
+                ReFamilyTypes.Add(model);
+            }
+        }
+
+        private void CollectCategories()
+        {
+            var cats = ReFamilyTypes
+                .Select(f => f.Category)
+                .Distinct()
+                .OrderBy(s => s);
+            foreach (var c in cats)
+                Categories.Add(c);
         }
 
         private void ApplyFilter()
         {
-            if (ReFamilyTypes == null) return;
-            IsLoading = true;
-            try
+            foreach (var item in ReFamilyTypes)
             {
-                var filtered = ReFamilyTypes.Where(t =>
-                    (string.IsNullOrEmpty(FilterCategory) || t.Category == FilterCategory) &&
-                    (string.IsNullOrEmpty(FilterText) || t.TypeName.Contains(FilterText)))
-                    .ToList();
-                ReFamilyTypes.Clear();
-                foreach (var item in filtered) ReFamilyTypes.Add(item);
-            }
-            finally
-            {
-                IsLoading = false;
+                bool match = true;
+                if (!string.IsNullOrEmpty(FilterCategory)
+                    && item.Category != FilterCategory)
+                    match = false;
+                if (!string.IsNullOrEmpty(FilterText)
+                && (item.TypeName == null
+         || item.TypeName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) < 0))
+                {
+                    match = false;
+                }
+                // Ẩn/hiện — bạn có thể mở rộng, hoặc dùng CollectionView để filter
+                // Ở ví dụ đơn giản: nếu không match → unselect
+                item.IsSelected = match;
             }
         }
 
         private void ShowAll()
         {
-            FilterCategory = null;
-            FilterText = null;
-            LoadData();
+            foreach (var item in ReFamilyTypes)
+                item.IsSelected = true;
         }
 
-        public string ApplyRenameRules(string originalName)
+        private void CheckAll()
         {
-            if (string.IsNullOrEmpty(originalName)) return originalName;
-            string result = originalName;
+            foreach (var item in ReFamilyTypes)
+                item.IsSelected = true;
+        }
 
-            if (RemoveFirst > 0 && RemoveFirst < result.Length) result = result.Substring(RemoveFirst);
-            if (!string.IsNullOrEmpty(AddPrefix)) result = AddPrefix + result;
-            if (RemoveLast > 0 && RemoveLast < result.Length) result = result.Substring(0, result.Length - RemoveLast);
-            if (!string.IsNullOrEmpty(AddSuffix)) result = result + AddSuffix;
-            if (!string.IsNullOrEmpty(FindText) && !string.IsNullOrEmpty(ReplaceWith))
-                result = result.Replace(FindText, ReplaceWith);
-            if (StartIndex >= 0 && RemoveCount > 0 && StartIndex < result.Length)
-                result = result.Remove(StartIndex, Math.Min(RemoveCount, result.Length - StartIndex));
-            if (!string.IsNullOrEmpty(AddText) && StartIndex >= 0)
-                result = result.Insert(StartIndex, AddText);
-            if (ToUppercase) result = result.ToUpper();
-
-            return result;
+        private void UncheckAll()
+        {
+            foreach (var item in ReFamilyTypes)
+                item.IsSelected = false;
         }
 
         private bool CanExecuteRename()
         {
-            return ReFamilyTypes?.Any(t => t.IsSelected) == true;
+            return ReFamilyTypes.Any(f => f.IsSelected);
         }
 
         private void ExecuteRename()
         {
-            if (_doc == null || ReFamilyTypes == null) return;
-            IsLoading = true;
-            using (var tx = new Revit.DB.Transaction(_doc, "Rename Family Types"))
+            // Bắt transaction
+            using (var tx = new Transaction(_doc, "Batch Rename Family Types"))
             {
                 tx.Start();
-                try
+                foreach (var item in ReFamilyTypes.Where(f => f.IsSelected))
                 {
-                    foreach (var type in ReFamilyTypes.Where(t => t.IsSelected))
+                    try
                     {
-                        var element = new Revit.DB.FilteredElementCollector(_doc)
-                            .OfClass(typeof(Revit.DB.ElementType))
-                            .Cast<Revit.DB.ElementType>()
-                            .FirstOrDefault(e => e.FamilyName == type.FamilyName && e.Name == type.TypeName);
-                        if (element != null)
-                            element.Name = type.NewTypeName;
+                        var type = _doc.GetElement(item.SymbolId) as FamilySymbol;
+                        if (type == null) continue;
+
+                        string newName = ComputeNewName(item.TypeName);
+                        // Gán tên mới
+                        type.Name = newName;
+                        // Update preview
+                        item.NewTypeName = newName;
                     }
-                    tx.Commit();
-                    MessageBox.Show("Renaming completed successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LoadData();
+                    catch (Exception ex)
+                    {
+                        // Có thể log lỗi, notify user...
+                    }
                 }
-                catch (Exception ex)
-                {
-                    tx.RollBack();
-                    MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                finally
-                {
-                    IsLoading = false;
-                }
+                tx.Commit();
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        private string ComputeNewName(string oldName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            string name = oldName;
+
+            // Remove first N chars
+            if (RemoveFirst > 0 && name.Length > RemoveFirst)
+                name = name.Substring(RemoveFirst);
+
+            // Remove last N chars
+            if (RemoveLast > 0 && name.Length > RemoveLast)
+                name = name.Substring(0, name.Length - RemoveLast);
+
+            // Find & replace
+            if (!string.IsNullOrEmpty(FindText))
+                name = name.Replace(FindText, ReplaceWith ?? "");
+
+            // Add prefix/suffix
+            if (!string.IsNullOrEmpty(AddPrefix))
+                name = AddPrefix + name;
+            if (!string.IsNullOrEmpty(AddSuffix))
+                name = name + AddSuffix;
+
+            // Additional add at index (simplified)
+            if (StartIndex >= 0 && StartIndex <= name.Length && !string.IsNullOrEmpty(AddText))
+                name = name.Insert(StartIndex, AddText);
+
+            // To upper / lower
+            if (ToUppercase)
+                name = name.ToUpperInvariant();
+            else if (Lowercase)
+                name = name.ToLowerInvariant();
+
+            // TODO: Remove diacritics, ISO19650, other rules nếu cần
+
+            return name;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }
