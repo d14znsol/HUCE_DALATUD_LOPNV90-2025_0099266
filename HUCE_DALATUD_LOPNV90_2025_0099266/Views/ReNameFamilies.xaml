@@ -68,10 +68,10 @@ SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
             <TextBlock Text="Rename Families" FontSize="16" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Filter category:" Width="100" Height="20"/>
-                <ComboBox Width="200" ItemsSource="{Binding FamilyList}"
-                          DisplayMemberPath="Name"
-                          SelectedItem="{Binding SelectedFamily}" 
-              ToolTip="Select a category to filter"/>
+                <ComboBox Width="200" ItemsSource="{Binding ReFamilies}"
+          DisplayMemberPath="OldName"
+          SelectedItem="{Binding SelectedFamily}" 
+              ToolTip="Select a category to filter" SelectionChanged="ComboBox_SelectionChanged"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,10,10,10">

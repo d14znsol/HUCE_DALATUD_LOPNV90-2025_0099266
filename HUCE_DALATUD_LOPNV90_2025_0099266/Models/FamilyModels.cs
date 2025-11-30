@@ -1,22 +1,40 @@
-﻿
-using Autodesk.Revit.DB;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using Autodesk.Revit.DB;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
-   public class FamilyModels  : INotifyPropertyChanged
+    public class FamilyModels : INotifyPropertyChanged
     {
-        
         public ElementId Id { get; }
-        public string Category { get; }
-        public string OldName { get; }
+
+        private string _category;
+        public string Category
+        {
+            get => _category;
+            set
+            {
+                if (_category != value)
+                {
+                    _category = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private string _oldName;
+        public string OldName
+        {
+            get => _oldName;
+            set
+            {
+                if (_oldName != value)
+                {
+                    _oldName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private string _newName;
         public string NewName
@@ -46,21 +64,20 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             }
         }
 
+        // Constructor
         public FamilyModels(ElementId id, string category, string name)
         {
             Id = id;
             Category = category;
             OldName = name;
-            NewName = name; // Mặc định NewName = OldName
+            NewName = name; // mặc định NewName = OldName
+            IsSelected = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected void OnPropertyChanged([CallerMemberName] string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
-
 }
-

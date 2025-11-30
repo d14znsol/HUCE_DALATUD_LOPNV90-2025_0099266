@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\CmdProRename.cs" />
+    <Compile Include="Command\CmdRenameFamilies.cs" />
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\FamilyModels.cs" />
     <Compile Include="ViewModels\CommandFamilies.cs" />
