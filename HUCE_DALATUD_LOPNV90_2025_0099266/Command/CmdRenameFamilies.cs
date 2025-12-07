@@ -11,7 +11,7 @@ using HUCE_DALATUD_LOPNV90_2025_0099266.Views;
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
     [Transaction(TransactionMode.Manual)]
-    public class CmdProRename : IExternalCommand
+    public class CmdRenameFamilyTypes : IExternalCommand
     {
         public Result Execute(
             ExternalCommandData commandData,

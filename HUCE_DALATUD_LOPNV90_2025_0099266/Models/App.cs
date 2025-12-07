@@ -89,8 +89,8 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                     Path.GetDirectoryName(assemblyPath) ?? "",
                      "Resource",
                      "Icons",
-                        "Rename.png"
- );
+                     "Rename.png"
+                );
 
                     if (File.Exists(iconPath))
                     {
@@ -102,6 +102,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                     }
 
                 }
+
 
                 return Result.Succeeded;
             }
