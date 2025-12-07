@@ -12,8 +12,8 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
     {
         private readonly Document _doc;
 
-        public ObservableCollection<FamilyTypeModels> ReFamilyTypes { get; }
-            = new ObservableCollection<FamilyTypeModels>();
+        public ObservableCollection<FamilyTypesModels> ReFamilyTypes { get; }
+            = new ObservableCollection<FamilyTypesModels>();
 
         private string _filterText;
         public string FilterText
@@ -92,7 +92,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 
             foreach (var symbol in collector)
             {
-                var model = new FamilyTypeModels(symbol);
+                var model = new FamilyTypesModels(symbol);
                 ReFamilyTypes.Add(model);
             }
         }

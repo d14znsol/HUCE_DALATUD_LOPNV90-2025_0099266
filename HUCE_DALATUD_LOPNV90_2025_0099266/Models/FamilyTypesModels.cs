@@ -3,7 +3,7 @@ using Autodesk.Revit.DB;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
-    public class FamilyTypeModels : INotifyPropertyChanged
+    public class FamilyTypesModels : INotifyPropertyChanged
     {
         // ID của FamilySymbol (type) — dùng để apply rename / tìm lại trong Document
         public ElementId SymbolId { get; }
@@ -23,7 +23,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
         }
 
         public string Category { get; }
-
+         
         public string FamilyName { get; }
 
         private string _typeName;
@@ -54,7 +54,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             }
         }
 
-        public FamilyTypeModels(FamilySymbol symbol)
+        public FamilyTypesModels(FamilySymbol symbol)
         {
             SymbolId = symbol.Id;
             FamilyName = symbol.FamilyName;             // từ Revit API: FamilySymbol.FamilyName :contentReference[oaicite:1]{index=1}
