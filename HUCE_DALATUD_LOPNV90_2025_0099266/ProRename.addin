@@ -10,15 +10,4 @@
 		<VendorDescription>HUCE Rename Tools</VendorDescription>
 	</AddIn>
 
-	<AddIn Type="Command">
-		<Name>Pro Rename</Name>
-		<Assembly>C:\ProgramData\Autodesk\Revit\Addins\2024\HUCE_ProRename\HUCE_DALATUD_LOPNV90_2025_0099266.dll</Assembly>
-		<AddInId>60c81aa4-80de-4ed3-b63d-04be01adf77e</AddInId>
-		<FullClassName>HUCE_DALATUD_LOPNV90_2025_0099266.CmdProRename</FullClassName>
-		<VendorId>HUCE</VendorId>
-		<VendorDescription>HUCE Rename Tools</VendorDescription>
-		<Text>Pro Rename</Text>
-	</AddIn>
-
 </RevitAddIns>
-

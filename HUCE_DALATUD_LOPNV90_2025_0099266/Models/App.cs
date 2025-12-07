@@ -8,7 +8,6 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
     public class App : IExternalApplication
     {
-        // static constructor – chạy 1 lần khi App được load
         static App()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -16,12 +15,10 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            // Tên assembly đang được yêu cầu
             var requested = new AssemblyName(args.Name);
             if (!string.Equals(requested.Name, "Xceed.Wpf.Toolkit", StringComparison.OrdinalIgnoreCase))
-                return null;    // C# 7.3 vẫn cho phép trả về null vì Assembly là reference type
+                return null;
 
-            // Thư mục chứa dll plugin hiện tại
             string asmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (string.IsNullOrEmpty(asmDir))
                 return null;
@@ -50,15 +47,17 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 
             try
             {
+                // Tạo tab nếu chưa có
                 try
                 {
                     application.CreateRibbonTab(tabName);
                 }
                 catch (Autodesk.Revit.Exceptions.ArgumentException)
                 {
-                    // tab đã tồn tại
+                    // tab đã tồn tại -> bỏ qua
                 }
 
+                // Tạo / lấy panel
                 RibbonPanel panel = null;
                 foreach (var p in application.GetRibbonPanels(tabName))
                 {
@@ -72,37 +71,71 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                     panel = application.CreateRibbonPanel(tabName, panelName);
 
                 string assemblyPath = Assembly.GetExecutingAssembly().Location;
+                string asmDir = Path.GetDirectoryName(assemblyPath) ?? "";
 
-                var btnData = new PushButtonData(
-                    "CmdProRename",
-                    "Pro Rename",
+                // ===== 1. Rename Families =====
+                var familiesBtnData = new PushButtonData(
+                    "CmdRenameFamilies",
+                    "Rename\nFamilies",
                     assemblyPath,
-                    "HUCE_DALATUD_LOPNV90_2025_0099266.CmdProRename"
+                    "HUCE_DALATUD_LOPNV90_2025_0099266.CmdRenameFamilies"
                 );
-
-                var btn = panel.AddItem(btnData) as PushButton;
-                if (btn != null)
+                var familiesBtn = panel.AddItem(familiesBtnData) as PushButton;
+                if (familiesBtn != null)
                 {
-                    btn.ToolTip = "Đổi tên Family / Type / Level / View";
-
-                    string iconPath = Path.Combine(
-                    Path.GetDirectoryName(assemblyPath) ?? "",
-                     "Resource",
-                     "Icons",
-                     "Rename.png"
-                );
-
-                    if (File.Exists(iconPath))
-                    {
-                        var img = new BitmapImage();
-                        img.BeginInit();
-                        img.UriSource = new Uri(iconPath, UriKind.Absolute);
-                        img.EndInit();
-                        btn.LargeImage = img;   // icon 32x32 cho ribbon
-                    }
-
+                    familiesBtn.ToolTip = "Đổi tên Families";
+                    string iconFamilies = Path.Combine(asmDir, "Resource", "Icons", "Families.png");
+                    if (File.Exists(iconFamilies))
+                        familiesBtn.LargeImage = LoadBitmap(iconFamilies);
                 }
 
+                // ===== 2. Rename Family Types =====
+                var typesBtnData = new PushButtonData(
+                    "CmdRenameFamilyTypes",
+                    "Rename\nTypes",
+                    assemblyPath,
+                    "HUCE_DALATUD_LOPNV90_2025_0099266.CmdRenameFamilyTypes"
+                );
+                var typesBtn = panel.AddItem(typesBtnData) as PushButton;
+                if (typesBtn != null)
+                {
+                    typesBtn.ToolTip = "Đổi tên Family Types";
+                    string iconTypes = Path.Combine(asmDir, "Resource", "Icons", "Types.png");
+                    if (File.Exists(iconTypes))
+                        typesBtn.LargeImage = LoadBitmap(iconTypes);
+                }
+
+                // ===== 3. Rename Views =====
+                var viewsBtnData = new PushButtonData(
+                    "CmdRenameViews",
+                    "Rename\nViews",
+                    assemblyPath,
+                    "HUCE_DALATUD_LOPNV90_2025_0099266.CmdRenameViews"
+                );
+                var viewsBtn = panel.AddItem(viewsBtnData) as PushButton;
+                if (viewsBtn != null)
+                {
+                    viewsBtn.ToolTip = "Đổi tên Views";
+                    string iconViews = Path.Combine(asmDir, "Resource", "Icons", "Views.png");
+                    if (File.Exists(iconViews))
+                        viewsBtn.LargeImage = LoadBitmap(iconViews);
+                }
+
+                // ===== 4. Rename Levels =====
+                var levelsBtnData = new PushButtonData(
+                    "CmdRenameLevels",
+                    "Rename\nLevels",
+                    assemblyPath,
+                    "HUCE_DALATUD_LOPNV90_2025_0099266.CmdRenameLevels"
+                );
+                var levelsBtn = panel.AddItem(levelsBtnData) as PushButton;
+                if (levelsBtn != null)
+                {
+                    levelsBtn.ToolTip = "Đổi tên Levels";
+                    string iconLevels = Path.Combine(asmDir, "Resource", "Icons", "Levels.png");
+                    if (File.Exists(iconLevels))
+                        levelsBtn.LargeImage = LoadBitmap(iconLevels);
+                }
 
                 return Result.Succeeded;
             }
@@ -111,6 +144,16 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                 TaskDialog.Show("HUCE Ribbon", "Lỗi OnStartup:\n" + ex);
                 return Result.Failed;
             }
+        }
+
+        private static BitmapImage LoadBitmap(string path)
+        {
+            var img = new BitmapImage();
+            img.BeginInit();
+            img.UriSource = new Uri(path, UriKind.Absolute);
+            img.CacheOption = BitmapCacheOption.OnLoad;
+            img.EndInit();
+            return img;
         }
 
         public Result OnShutdown(UIControlledApplication application)

@@ -85,12 +85,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\CmdProRename.cs" />
+    <Compile Include="Command\CmdRenameFamilies.cs" />
+    <Compile Include="Command\CmdRenameFamilyTypes.cs" />
+    <Compile Include="Command\CmdRenameLevels.cs" />
+    <Compile Include="Command\CmdRenameViews.cs" />
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\FamilyTypeModels.cs" />
     <Compile Include="ViewModels\MainWindowViewModels.cs" />
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="ViewModels\RenameFamiliesViewModel.cs" />
     <Compile Include="ViewModels\RenameFamilyTypesViewModel.cs" />
+    <Compile Include="ViewModels\RenameLevelsViewModel.cs" />
+    <Compile Include="ViewModels\RenameViewsViewModel.cs" />
     <Compile Include="Views\ReNameFamilies.xaml.cs">
       <DependentUpon>ReNameFamilies.xaml</DependentUpon>
     </Compile>
