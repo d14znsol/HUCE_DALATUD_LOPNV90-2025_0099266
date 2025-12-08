@@ -1,21 +1,19 @@
-﻿using Autodesk.Revit.DB;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
-namespace HUCE_DALATUD_LOPNV90_2025_0099266
+namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 {
-    public class RenameFamiliesViewModel : INotifyPropertyChanged
+    public class RenameFamilyTypesViewModel : INotifyPropertyChanged
     {
         private readonly Document _doc;
 
-        public ObservableCollection<FamiliesModels> ReFamilies { get; }
-            = new ObservableCollection<FamiliesModels>();
+        public ObservableCollection<FamilyTypesModels> ReFamilyTypes { get; }
+            = new ObservableCollection<FamilyTypesModels>();
 
         private string _filterText;
         public string FilterText
@@ -70,11 +68,11 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
         public bool RemoveDiacritics { get; set; }
         public bool ISO19650 { get; set; }
 
-        public RenameFamiliesViewModel(Document doc)
+        public RenameFamilyTypesViewModel(Document doc)
         {
             _doc = doc ?? throw new ArgumentNullException(nameof(doc));
 
-            LoadFamilies();
+            LoadFamilyTypes();
 
             FilterCommand = new RelayCommand(ApplyFilter);
             ShowAllCommand = new RelayCommand(ShowAll);
@@ -85,7 +83,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             CollectCategories();
         }
 
-        private void LoadFamilies()
+        private void LoadFamilyTypes()
         {
             // Lấy tất cả FamilySymbol trong doc
             var collector = new FilteredElementCollector(_doc)
@@ -94,14 +92,14 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 
             foreach (var symbol in collector)
             {
-                var model = new FamiliesModels(symbol);
-                ReFamilies.Add(model);
+                var model = new FamilyTypesModels(symbol);
+                ReFamilyTypes.Add(model);
             }
         }
 
         private void CollectCategories()
         {
-            var cats = ReFamilies
+            var cats = ReFamilyTypes
                 .Select(f => f.Category)
                 .Distinct()
                 .OrderBy(s => s);
@@ -111,7 +109,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 
         private void ApplyFilter()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
             {
                 bool match = true;
                 if (!string.IsNullOrEmpty(FilterCategory)
@@ -131,34 +129,34 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 
         private void ShowAll()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
                 item.IsSelected = true;
         }
 
         private void CheckAll()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
                 item.IsSelected = true;
         }
 
         private void UncheckAll()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
                 item.IsSelected = false;
         }
 
         private bool CanExecuteRename()
         {
-            return ReFamilies.Any(f => f.IsSelected);
+            return ReFamilyTypes.Any(f => f.IsSelected);
         }
 
         private void ExecuteRename()
         {
             // Bắt transaction
-            using (var tx = new Transaction(_doc, "Batch Rename Families"))
+            using (var tx = new Transaction(_doc, "Batch Rename Family Types"))
             {
                 tx.Start();
-                foreach (var item in ReFamilies.Where(f => f.IsSelected))
+                foreach (var item in ReFamilyTypes.Where(f => f.IsSelected))
                 {
                     try
                     {
@@ -224,4 +222,3 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
         }
     }
 }
-

@@ -23,7 +23,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             // Document doc = uidoc.Document;
 
             // Gọi UI WPF có sẵn
-            var win = new MAINWindow();
+            var win = new ReNameFamilies();
             win.ShowDialog();
 
             return Result.Succeeded;
