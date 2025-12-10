@@ -50,9 +50,11 @@
   <ItemGroup>
     <Reference Include="RevitAPI">
       <HintPath>E:\Revit\Revit 2024\RevitAPI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
       <HintPath>E:\Revit\Revit 2024\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -88,9 +90,9 @@
     <Compile Include="Command\CmdRenameFamilies.cs" />
     <Compile Include="Command\CmdRenameFamilyTypes.cs" />
     <Compile Include="Command\CmdRenameLevels.cs" />
-    <Compile Include="Command\CmdRenameViews.cs" />
+    <Compile Include="Models\CmdRenameViews.cs" />
     <Compile Include="Models\App.cs" />
-    <Compile Include="Models\FamiliesModels.cs" />
+    <Compile Include="Command\FamiliesModels.cs" />
     <Compile Include="Models\FamilyTypesModels.cs" />
     <Compile Include="ViewModels\MainWindowViewModels.cs" />
     <Compile Include="Command\RelayCommand.cs" />
@@ -166,6 +168,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\Icons\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\Icons\Families.png" />
+    <Resource Include="Resource\Icons\Types.png" />
+    <Resource Include="Resource\Icons\Levels.png" />
+    <Resource Include="Resource\Icons\Views.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -87,14 +87,14 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 
         private void LoadFamilies()
         {
-            // Lấy tất cả FamilySymbol trong doc
+            // Lấy tất cả Family trong doc
             var collector = new FilteredElementCollector(_doc)
-                .OfClass(typeof(FamilySymbol))
-                .Cast<FamilySymbol>();
+                .OfClass(typeof(Family))
+                .Cast<Family>();
 
-            foreach (var symbol in collector)
+            foreach (var families in collector)
             {
-                var model = new FamiliesModels(symbol);
+                var model = new FamiliesModels(families);
                 ReFamilies.Add(model);
             }
         }
