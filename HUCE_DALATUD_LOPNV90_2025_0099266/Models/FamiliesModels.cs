@@ -59,15 +59,14 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             }
         }
 
-        public FamiliesModels(FamilySymbol symbol)
+        public FamiliesModels(Family family)
         {
-            SymbolId = symbol.Id;
-            FamilyName = symbol.FamilyName;             // từ Revit API: FamilySymbol.FamilyName :contentReference[oaicite:1]{index=1}
-            TypeName = symbol.Name;                      // tên type hiện tại
+            SymbolId = family.Id;
+            FamilyName = family.Name;             // từ Revit API: FamilySymbol.FamilyName :contentReference[oaicite:1]{index=1}
             NewTypeName = TypeName;                      // mặc định, preview = hiện tại
             IsSelected = false;
-
-            Category = symbol.Family.FamilyCategory?.Name ?? ""; // lấy category — nếu muốn lọc theo category
+                    
+            Category = family.FamilyCategory?.Name ?? ""; // lấy category — nếu muốn lọc theo category
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

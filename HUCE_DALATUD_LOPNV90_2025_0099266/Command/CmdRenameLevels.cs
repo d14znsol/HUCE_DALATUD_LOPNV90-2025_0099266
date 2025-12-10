@@ -18,7 +18,8 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                           ElementSet elements)
         {
             var doc = commandData.Application.ActiveUIDocument.Document;
-            var win = new ReNameLevels();
+            var winRenameLevels = new ReNameLevels();
+            winRenameLevels.ShowDialog();
             return Result.Succeeded;
         }
     }

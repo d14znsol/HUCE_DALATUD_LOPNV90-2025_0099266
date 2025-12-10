@@ -21,12 +21,12 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             var renameFamilyTypesViewModel = new RenameFamilyTypesViewModel(doc);
 
             // Window XAML bạn đã gửi là ReNameFamilyTypes
-            var win = new ReNameFamilyTypes
+            var winRenameFamilyTypes = new ReNameFamilyTypes
             {
                 DataContext = renameFamilyTypesViewModel
             };
 
-            win.ShowDialog();
+            winRenameFamilyTypes.ShowDialog();
             return Result.Succeeded;
         }
     }
