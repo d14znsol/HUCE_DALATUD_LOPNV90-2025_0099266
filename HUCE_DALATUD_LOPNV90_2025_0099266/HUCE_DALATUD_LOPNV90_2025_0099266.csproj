@@ -90,9 +90,9 @@
     <Compile Include="Command\CmdRenameFamilies.cs" />
     <Compile Include="Command\CmdRenameFamilyTypes.cs" />
     <Compile Include="Command\CmdRenameLevels.cs" />
-    <Compile Include="Models\CmdRenameViews.cs" />
+    <Compile Include="Command\CmdRenameViews.cs" />
     <Compile Include="Models\App.cs" />
-    <Compile Include="Command\FamiliesModels.cs" />
+    <Compile Include="Models\FamiliesModels.cs" />
     <Compile Include="Models\FamilyTypesModels.cs" />
     <Compile Include="ViewModels\MainWindowViewModels.cs" />
     <Compile Include="Command\RelayCommand.cs" />
