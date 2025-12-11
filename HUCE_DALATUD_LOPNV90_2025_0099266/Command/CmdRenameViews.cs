@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels;
+using HUCE_DALATUD_LOPNV90_2025_0099266.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using HUCE_DALATUD_LOPNV90_2025_0099266.Views;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
@@ -18,11 +19,17 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                           ref string message,
                           ElementSet elements)
         {
-            var doc = commandData.Application.ActiveUIDocument.Document;
-            var winRenameViews = new ReNameViews();
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+            Document doc = uidoc.Document;
+
+            var renameViewsViewModel = new RenameViewsViewModel(doc);
+            var winRenameViews = new ReNameViews
+            {
+                DataContext = renameViewsViewModel
+            };
+
             winRenameViews.ShowDialog();
             return Result.Succeeded;
         }
     }
 }
-

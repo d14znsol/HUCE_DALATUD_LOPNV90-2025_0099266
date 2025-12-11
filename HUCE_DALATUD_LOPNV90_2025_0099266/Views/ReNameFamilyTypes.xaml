@@ -83,6 +83,19 @@
         <DataGrid Grid.Row="1" Grid.Column="0" Height="400" Width="450" ItemsSource="{Binding ReFamilyTypes}" 
       AutoGenerateColumns="False" Margin="10,10,10,10" CanUserResizeColumns="True" 
       EnableRowVirtualization="True" VirtualizingStackPanel.IsVirtualizing="True">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#4A90E2"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Normal"/>
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="FontSize" Value="12.5"/>
+
+
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Width="50" Header="Select"/>
                 <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="auto"/>
