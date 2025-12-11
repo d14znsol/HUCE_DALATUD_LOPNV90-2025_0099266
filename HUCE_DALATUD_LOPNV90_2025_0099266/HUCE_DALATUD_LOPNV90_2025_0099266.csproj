@@ -94,6 +94,7 @@
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\FamiliesModels.cs" />
     <Compile Include="Models\FamilyTypesModels.cs" />
+    <Compile Include="Models\LevelsModels.cs" />
     <Compile Include="Models\ViewsModels.cs" />
     <Compile Include="ViewModels\MainWindowViewModels.cs" />
     <Compile Include="Command\RelayCommand.cs" />
