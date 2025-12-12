@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
@@ -20,7 +21,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         public string FilterText
         {
             get => _filterText;
-            set { if (_filterText != value) { _filterText = value; OnPropertyChanged(nameof(FilterText)); } }
+            set { if (_filterText != value) { _filterText = value; OnPropertyChanged(nameof(FilterText)); ApplyFilter(); } }
         }
 
         private string _filterCategory;
@@ -30,7 +31,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             set { if (_filterCategory != value) { _filterCategory = value; OnPropertyChanged(nameof(FilterCategory)); ApplyFilter(); } }
         }
 
-        public ObservableCollection<string> Categories { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> Categories { get; } = new ObservableCollection<string>(); // gán binding
 
         // --- COMMANDS ---
         public ICommand FilterCommand { get; }
@@ -73,12 +74,40 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             ReLevels.Clear();
             // Lọc lấy tất cả đối tượng Level
             var collector = new FilteredElementCollector(_doc)
-                .OfClass(typeof(Level))
-                .Cast<Level>();
+           .OfClass(typeof(Level)).Cast <Level>();
 
-            foreach (var lv in collector)
+            foreach (var level in collector)
             {
-                ReLevels.Add(new LevelsModels(lv));
+                string name = level.Name;              // tên Level
+                double elevation = level.Elevation;    // cao độ (feet)
+                ElementId id = level.Id;               // ID để thao tác sau này
+                {
+                    ReLevels.Add(new LevelsModels(level));
+                }
+            }
+
+        }
+        private void ApplyFilter()
+        {
+            foreach (var item in ReLevels)
+            {
+                bool match = true;
+
+                // Lọc theo Category
+                if (!string.IsNullOrEmpty(FilterCategory)
+                    && item.Category != FilterCategory)
+                    match = false;
+
+                // Lọc theo Text
+                if (!string.IsNullOrEmpty(FilterText)
+                    && (item.TypeName == null
+                        || item.TypeName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) < 0))
+                {
+                    match = false;
+                }
+
+                // Nếu không match thì bỏ chọn
+                item.IsSelected = match;
             }
         }
         private void ExecuteRename()
@@ -133,16 +162,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             Categories.Add("Levels"); // Level chỉ có 1 category duy nhất
         }
 
-        private void ApplyFilter()
-        {
-            foreach (var item in ReLevels)
-            {
-                bool match = true;
-                if (!string.IsNullOrEmpty(FilterText) && item.TypeName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) < 0)
-                    match = false;
-                item.IsSelected = match;
-            }
-        }
+    
 
         private void ShowAll() { foreach (var i in ReLevels) i.IsSelected = true; }
         private void CheckAll() { foreach (var i in ReLevels) i.IsSelected = true; }
