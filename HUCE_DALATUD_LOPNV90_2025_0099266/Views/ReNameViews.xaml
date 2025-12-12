@@ -76,8 +76,8 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,10,10,10" >
             <StackPanel Orientation="Horizontal" Margin=" 0 30 0 0">
-                <TextBlock Text="Filter view names containing:" Width="160" Height="20" Margin="0 0 0 0"   />
-                <TextBox Width="100" Height="20" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Enter text to filter type names"/>
+                <TextBlock Text="Filter view names containing:" Width="160" Height="20" Margin="0 4 0 0"   />
+                <TextBox Width="100" Height="20" Margin="10 0 10 0" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Enter text to filter type names"/>
                 <Button Content="Filter "  Height="20" Command="{Binding FilterCommand}"/>
                 <Button Content="Show all" Margin="0 0 0 0" Height="20" Command="{Binding ShowAllCommand}"/>
             </StackPanel>
@@ -119,7 +119,7 @@
     </StackPanel>
 
     <!-- Quy tắc đổi tên với DataTrigger -->
-    <GroupBox Grid.Row="1" Grid.Column="2" Header="Rename Rules" Margin="10,10,10,10">
+    <StackPanel Grid.Row="1" Grid.Column="2" Margin="10,6,10,10">
         <StackPanel Orientation="Vertical">
             <!-- Prefix -->
                 <GroupBox Header="Prefix">
@@ -189,7 +189,7 @@
             <!-- Nút Rename -->
            
         </StackPanel>
-    </GroupBox>
+        </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,10,10">
             <Button Height="Auto" Content="Rename" Margin="0,0,0,0" Width="100"  Command="{Binding RenameCommand}"/>
         </StackPanel>

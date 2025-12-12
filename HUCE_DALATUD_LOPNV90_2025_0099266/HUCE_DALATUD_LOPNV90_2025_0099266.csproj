@@ -48,12 +48,19 @@
     <ApplicationManifest>ProRename.addin</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2024\RevitAPI.dll</HintPath>
+    <Reference Include="AdWindows, Version=5.0.3.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Revit_All_Main_Versions_API_x64.2024.2.0\lib\net48\AdWindows.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2024\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPI, Version=24.2.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit_All_Main_Versions_API_x64.2024.2.0\lib\net48\RevitAPI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI, Version=24.2.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit_All_Main_Versions_API_x64.2024.2.0\lib\net48\RevitAPIUI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -66,6 +73,11 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIFramework, Version=24.2.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit_All_Main_Versions_API_x64.2024.2.0\lib\net48\UIFramework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

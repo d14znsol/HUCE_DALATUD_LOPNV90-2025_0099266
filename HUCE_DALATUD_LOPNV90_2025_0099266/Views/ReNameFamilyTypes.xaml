@@ -73,8 +73,8 @@
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,10,10">
             <StackPanel Orientation="Horizontal" Margin=" 0 30 0 0">
-                <TextBlock Text="Filter view names containing:" Width="160" Height="20" Margin="0 0 0 0"   />
-                <TextBox Width="100" Height="20" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Enter text to filter type names"/>
+                <TextBlock Text="Filter view names containing:" Width="160" Height="20" Margin="0 4 0 0"   />
+                <TextBox Width="100" Height="20" Margin="10 0 10 0" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Enter text to filter type names"/>
                 <Button Content="Filter "  Height="20" Command="{Binding FilterCommand}"/>
                 <Button Content="Show all" Margin="0 0 0 0" Height="20" Command="{Binding ShowAllCommand}"/>
             </StackPanel>
@@ -111,7 +111,7 @@
             Margin="20,0,0,0"/>
         </StackPanel>
         <!-- Quy tắc đổi tên với DataTrigger -->
-        <StackPanel Grid.Column="1"  Margin="10,73,10,10" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <StackPanel Grid.Column="1" Grid.Row="1"  Margin="10,6,10,10" >
             <StackPanel Orientation="Vertical">
                 <!-- Prefix -->
                 <GroupBox Header="Prefix">
