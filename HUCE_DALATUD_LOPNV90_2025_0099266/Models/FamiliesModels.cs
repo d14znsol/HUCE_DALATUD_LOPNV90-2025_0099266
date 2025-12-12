@@ -62,6 +62,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
         public FamiliesModels(Family family)
         {
             SymbolId = family.Id;
+            TypeName = family.Name;
             FamilyName = family.Name;             // từ Revit API: FamilySymbol.FamilyName :contentReference[oaicite:1]{index=1}
             NewTypeName = TypeName;                      // mặc định, preview = hiện tại
             IsSelected = false;
