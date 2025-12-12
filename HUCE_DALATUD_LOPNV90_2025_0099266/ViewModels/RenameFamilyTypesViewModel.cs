@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 {
-    internal class RenameFamiliesViewModel
+    public class RenameFamilyTypesViewModel : INotifyPropertyChanged
     {
-<<<<<<< Updated upstream
-=======
         private readonly Document _doc;
 
-        public ObservableCollection<FamiliesModels> ReFamilies { get; }
-            = new ObservableCollection<FamiliesModels>();
+        public ObservableCollection<FamilyTypesModels> ReFamilyTypes { get; }
+            = new ObservableCollection<FamilyTypesModels>();
 
         private string _filterText;
         public string FilterText
@@ -68,21 +68,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         public bool RemoveDiacritics { get; set; }
         public bool ISO19650 { get; set; }
 
-        public RenameFamiliesViewModel(Document doc)
-        {
-            _doc = doc ?? throw new ArgumentNullException(nameof(doc));
-
-            LoadFamilies();
-
-            FilterCommand = new RelayCommand(ApplyFilter);
-            ShowAllCommand = new RelayCommand(ShowAll);
-            CheckAllCommand = new RelayCommand(CheckAll);
-            UncheckAllCommand = new RelayCommand(UncheckAll);
-            RenameCommand = new RelayCommand(ExecuteRename, CanExecuteRename);
-
-            CollectCategories();
-        }
-
+        // --- RENAME RULES (Giống hệt các ViewModel khác) ---
         private bool _isAllSelected;
         public bool IsAllSelected
         {
@@ -100,26 +86,43 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 
         private void ToggleAll(bool select)
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
                 item.IsSelected = select;
         }
-        private void LoadFamilies()
-        {
-            // Lấy tất cả Family trong doc
-            var collector = new FilteredElementCollector(_doc)
-                .OfClass(typeof(Family))
-                .Cast<Family>();
 
-            foreach (var families in collector)
+        public RenameFamilyTypesViewModel(Document doc)
+        {
+            _doc = doc ?? throw new ArgumentNullException(nameof(doc));
+
+            LoadFamilyTypes();
+
+            FilterCommand = new RelayCommand(ApplyFilter);
+            ShowAllCommand = new RelayCommand(ShowAll);
+            CheckAllCommand = new RelayCommand(CheckAll);
+            UncheckAllCommand = new RelayCommand(UncheckAll);
+            RenameCommand = new RelayCommand(ExecuteRename, CanExecuteRename);
+
+            CollectCategories();
+        }
+
+
+        private void LoadFamilyTypes()
+        {
+            // Lấy tất cả FamilySymbol trong doc
+            var collector = new FilteredElementCollector(_doc)
+                .OfClass(typeof(FamilySymbol))
+                .Cast<FamilySymbol>();
+
+            foreach (var symbol in collector)
             {
-                var model = new FamiliesModels(families);
-                ReFamilies.Add(model);
+                var model = new FamilyTypesModels(symbol);
+                ReFamilyTypes.Add(model);
             }
         }
 
         private void CollectCategories()
         {
-            var cats = ReFamilies
+            var cats = ReFamilyTypes
                 .Select(f => f.Category)
                 .Distinct()
                 .OrderBy(s => s);
@@ -129,7 +132,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 
         private void ApplyFilter()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
             {
                 bool match = true;
                 if (!string.IsNullOrEmpty(FilterCategory)
@@ -149,34 +152,34 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 
         private void ShowAll()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
                 item.IsSelected = true;
         }
 
         private void CheckAll()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
                 item.IsSelected = true;
         }
 
         private void UncheckAll()
         {
-            foreach (var item in ReFamilies)
+            foreach (var item in ReFamilyTypes)
                 item.IsSelected = false;
         }
 
         private bool CanExecuteRename()
         {
-            return ReFamilies.Any(f => f.IsSelected);
+            return ReFamilyTypes.Any(f => f.IsSelected);
         }
 
         private void ExecuteRename()
         {
             // Bắt transaction
-            using (var tx = new Transaction(_doc, "Batch Rename Families"))
+            using (var tx = new Transaction(_doc, "Batch Rename Family Types"))
             {
                 tx.Start();
-                foreach (var item in ReFamilies.Where(f => f.IsSelected))
+                foreach (var item in ReFamilyTypes.Where(f => f.IsSelected))
                 {
                     try
                     {
@@ -240,6 +243,5 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
->>>>>>> Stashed changes
     }
 }

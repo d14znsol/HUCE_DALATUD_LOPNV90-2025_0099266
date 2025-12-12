@@ -68,9 +68,15 @@
 
     <!-- Nút Check All / Uncheck All và thống kê -->
     <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10" >
+<<<<<<< Updated upstream
         <Button Content="CHECK ALL" Command="{Binding CheckAllCommand}"/>
         <Button Content="UNCHECK ALL" Command="{Binding UncheckAllCommand}"/>
         <TextBlock Text="{Binding CheckedCount, StringFormat=Checked family types: {0} / {1}, ConverterParameter=FamilyTypes.Count}" 
+=======
+            <CheckBox Content="Chọn tất cả"
+             IsChecked="{Binding IsAllSelected, Mode=TwoWay}" />
+            <TextBlock Text="{Binding CheckedCount, StringFormat=Checked Re Views: {0} / {1}, ConverterParameter=ReViews.Count}" 
+>>>>>>> Stashed changes
                    Margin="20,0,0,0"/>
     </StackPanel>
 

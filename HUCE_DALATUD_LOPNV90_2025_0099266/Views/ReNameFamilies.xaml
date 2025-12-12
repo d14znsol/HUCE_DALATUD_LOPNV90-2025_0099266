@@ -73,9 +73,15 @@ SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
 
         <!-- Nút Check All / Uncheck All và thống kê -->
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="3">
+<<<<<<< Updated upstream
             <Button Content="Check all" Height="Auto" Command="{Binding CheckAllCommand}"/>
             <Button Content="Uncheck all" Height="Auto" Command="{Binding UncheckAllCommand}"/>
             <TextBlock Text="{Binding CheckedCount, StringFormat=Checked family types: {0} / {1}, ConverterParameter=FamilyTypes.Count}" 
+=======
+            <CheckBox Content="Chọn tất cả"
+              IsChecked="{Binding IsAllSelected, Mode=TwoWay}" />
+            <TextBlock Text="{Binding CheckedCount, StringFormat=Checked Re families: {0} / {1}, ConverterParameter=ReFamilies.Count}" 
+>>>>>>> Stashed changes
                    Margin="20,0,0,0"/>
         </StackPanel>
         <!-- Quy tắc đổi tên với DataTrigger -->
