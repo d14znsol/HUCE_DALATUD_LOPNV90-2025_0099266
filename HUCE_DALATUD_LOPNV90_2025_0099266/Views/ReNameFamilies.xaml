@@ -102,7 +102,7 @@ SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Width="50" Header="Select"/>
                 <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="auto"/>
                 <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName}" Width="auto"/>
-                <DataGridTextColumn Header="Type Name" Binding="{Binding TypeName}" Width="auto"/>
+                
                 <DataGridTextColumn Header="New Type Name Preview" Binding="{Binding NewTypeName}" Width="auto"/>
             </DataGrid.Columns>
         </DataGrid>
