@@ -69,6 +69,26 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             CollectCategories();
         }
 
+        private bool _isAllSelected;
+        public bool IsAllSelected
+        {
+            get => _isAllSelected;
+            set
+            {
+                if (_isAllSelected != value)
+                {
+                    _isAllSelected = value;
+                    OnPropertyChanged(nameof(IsAllSelected));
+                    ToggleAll(_isAllSelected);
+                }
+            }
+        }
+
+        private void ToggleAll(bool select)
+        {
+            foreach (var item in ReLevels)
+                item.IsSelected = select;
+        }
         private void LoadLevels()
         {
             ReLevels.Clear();
