@@ -150,22 +150,8 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         }
 
         // Các hàm Filter/CheckAll copy từ RenameFamiliesViewModel sang...
-
-        private void ApplyFilter()
-        {
-            foreach (var item in ReViews)
-            {
-                bool match = true;
-                if (!string.IsNullOrEmpty(FilterCategory) && item.Category != FilterCategory)
-                    match = false;
-
-                if (!string.IsNullOrEmpty(FilterText) &&
-                    (item.TypeName == null || item.TypeName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) < 0))
-                    match = false;
-
-                item.IsSelected = match;
-            }
-        }
+        private void CollectCategories() { /* Copy logic */ }
+        private void ApplyFilter() { /* Copy logic */ }
         private void ShowAll() { foreach (var i in ReViews) i.IsSelected = true; }
         private void CheckAll() { foreach (var i in ReViews) i.IsSelected = true; }
         private void UncheckAll() { foreach (var i in ReViews) i.IsSelected = false; }
@@ -173,14 +159,5 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        private void CollectCategories()
-        {
-            var cats = ReViews
-                .Select(v => v.Category)
-                .Distinct()
-                .OrderBy(s => s);
-            foreach (var c in cats)
-                Categories.Add(c);
-        }
     }
 }
