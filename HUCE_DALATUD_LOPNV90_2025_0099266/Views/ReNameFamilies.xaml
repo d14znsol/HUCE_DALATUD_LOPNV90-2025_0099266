@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HUCE_DALATUD_LOPNV90_2025_0099266"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:UserControls="clr-namespace:HUCE_DALATUD_LOPNV90_2025_0099266.Usercontrol"
         mc:Ignorable="d"
 Title=" ProRename Tool - Rename Families" 
 MinHeight="400" MinWidth="800" 
@@ -82,7 +83,7 @@ SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
         </StackPanel>
 
         <!-- Bảng dữ liệu với VirtualizingStackPanel -->
-        <DataGrid Width="450" Height="400" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding ReFamilies}" 
+        <DataGrid Width="450" Height="500" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding ReFamilies}" 
               AutoGenerateColumns="False" Margin="10,10,10,10" CanUserResizeColumns="True" 
               EnableRowVirtualization="True" VirtualizingStackPanel.IsVirtualizing="True" >
             <DataGrid.ColumnHeaderStyle>
@@ -160,18 +161,26 @@ SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
                             <TextBlock Text="Add Text:" Height="20"/>
                             <TextBox Text="{Binding AddText, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="20" Margin="52 0 0 0"/>
                         </StackPanel>
-
+                         
 
                     </StackPanel>
                 </GroupBox>
 
                 <!-- Tùy chọn -->
-                <StackPanel Orientation="Vertical" Margin="0,5">
-                    <CheckBox IsChecked="{Binding ToUppercase}" Content="To Uppercase"  Margin="0,10,0,0"/>
-                    <CheckBox IsChecked="{Binding Lowercase}" Content="To Lowercase"  Margin="0,10,0,0"/>
-                    <CheckBox IsChecked="{Binding RemoveDiacritics}" Content="Remove Diacritics" Margin="0,10,0,0"/>
-                    <CheckBox IsChecked="{Binding ISO19650}" Content="ISO19650 Report" Margin="0,10,0,0"/>
-                </StackPanel>
+                <GroupBox>
+                    
+                    <StackPanel Width="500" Height="250" Grid.Column="1" HorizontalAlignment="Left" Orientation="Vertical" Margin="0,5">
+                      
+                        <CheckBox IsChecked="{Binding ToUppercase}" Content="To Uppercase"  Margin="0,10,0,0"/>
+                        <CheckBox IsChecked="{Binding Lowercase}" Content="To Lowercase"  Margin="0,10,0,0"/>
+                        <CheckBox IsChecked="{Binding RemoveDiacritics}" Content="Remove Diacritics" Margin="0,10,0,0"/>
+                        <CheckBox IsChecked="{Binding ISO19650}" Content="ISO19650 Report" Margin="0,10,0,0"/>
+                        <UserControls:DashBoard Height="250" Width="338" HorizontalAlignment="Right" Margin="0 -100 0 0" />
+                    </StackPanel>
+                    
+                    
+                   
+                </GroupBox>
                 <!-- ProgressBar với DataTrigger -->
                 <ProgressBar Height="20" Width="150">
                     <ProgressBar.Style>
@@ -192,5 +201,6 @@ SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,10,10">
             <Button Height="Auto" Content="Rename" Margin="0,0,0,0" Width="100"  Command="{Binding RenameCommand}"/>
         </StackPanel>
+       
     </Grid>
 </Window>
