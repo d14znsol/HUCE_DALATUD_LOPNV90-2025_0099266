@@ -6,6 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:HUCE_DALATUD_LOPNV90_2025_0099266.Views"
         mc:Ignorable="d"
+         xmlns:UserControls="clr-namespace:HUCE_DALATUD_LOPNV90_2025_0099266.Usercontrol"
         Title="ReNameViews" MinHeight="400" MinWidth="800"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
         
@@ -85,7 +86,7 @@
         </StackPanel>
 
         <!-- Bảng dữ liệu với VirtualizingStackPanel -->
-        <DataGrid Grid.Row="1" Grid.Column="0" Height="400" Width="450" ItemsSource="{Binding ReViews}" 
+        <DataGrid Grid.Row="1" Grid.Column="0" Height="500" Width="450" ItemsSource="{Binding ReViews}" 
               AutoGenerateColumns="False" Margin="10,10,10,10" CanUserResizeColumns="True" 
               EnableRowVirtualization="True" VirtualizingStackPanel.IsVirtualizing="True" >
             <DataGrid.ColumnHeaderStyle>
@@ -172,6 +173,7 @@
                 <CheckBox IsChecked="{Binding Lowercase}" Margin="10 0 0 0" Content="To Lowercase"/>
                 <CheckBox IsChecked="{Binding RemoveDiacritics}" Content="Remove Diacritics" Margin="10,0,0,0"/>
                 <CheckBox IsChecked="{Binding ISO19650}" Content="ISO19650 Report" Margin="10,0,0,0"/>
+                
             </StackPanel>
             <!-- ProgressBar với DataTrigger -->
             <ProgressBar Height="20" Width="150">
@@ -187,8 +189,9 @@
                 </ProgressBar.Style>
             </ProgressBar>
             <!-- Nút Rename -->
-           
-        </StackPanel>
+                <UserControls:DashBoard Height="250" Width="338" HorizontalAlignment="Stretch" Margin="0 0 0 0" />
+            </StackPanel>
+        
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,10,10">
             <Button Height="Auto" Content="Rename" Margin="0,0,0,0" Width="100"  Command="{Binding RenameCommand}"/>
