@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,14 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.Views
     /// </summary>
     public partial class ReNameViews : Window
     {
+
+
         public ReNameViews()
         {
             InitializeComponent();
         }
+
+
     }
+
 }

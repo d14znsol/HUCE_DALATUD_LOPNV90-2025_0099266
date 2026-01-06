@@ -92,12 +92,13 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                 .OfClass(typeof(Family))
                 .Cast<Family>();
 
-            foreach (var families in collector)
+            foreach (var symbol in collector)
             {
-                var model = new FamiliesModels(families);
+                var model = new FamiliesModels(symbol);
                 ReFamilies.Add(model);
             }
         }
+        
 
         private void CollectCategories()
         {
@@ -152,6 +153,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             return ReFamilies.Any(f => f.IsSelected);
         }
 
+
         private void ExecuteRename()
         {
             // Bắt transaction
@@ -162,15 +164,18 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                 {
                     try
                     {
-                        var type = _doc.GetElement(item.SymbolId) as FamilySymbol;
-                        if (type == null) continue;
+                        var symbol = _doc.GetElement(item.SymbolId) as FamilySymbol;
+                        if (symbol == null) continue;
 
                         string newName = ComputeNewName(item.TypeName);
-                        // Gán tên mới
-                        type.Name = newName;
-                        // Update preview
+
+                        // Đổi tên type
+                        symbol.Name = newName;
+
+                        // Update lại UI
                         item.NewTypeName = newName;
                     }
+
                     catch (Exception ex)
                     {
                         // Có thể log lỗi, notify user...

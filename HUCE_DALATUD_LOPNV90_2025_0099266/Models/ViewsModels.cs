@@ -1,10 +1,13 @@
 ﻿using Autodesk.Revit.DB;
+using LiveCharts;
+using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
@@ -63,6 +66,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             }
         }
 
+
         // Constructor nhận vào một View
         public ViewsModels(View view)
         {
@@ -94,11 +98,33 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             }
             catch { /* Bỏ qua nếu không lấy được */ }
         }
+        private bool _iso19650;
+        public bool ISO19650
+        {
+            get => _iso19650;
+            set
+            {
+                _iso19650 = value;
+                OnPropertyChanged(nameof(ISO19650));
+            }
+        }
+        private string _isoPreview;
+        public string IsoPreview
+        {
+            get => _isoPreview;
+            set
+            {
+                _isoPreview = value;
+                OnPropertyChanged(nameof(IsoPreview));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
     }
 }
 
