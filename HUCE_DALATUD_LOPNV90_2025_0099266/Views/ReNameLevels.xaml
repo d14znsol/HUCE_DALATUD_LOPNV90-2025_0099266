@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Title=" ProRename Tool - Rename Levels" 
         MinHeight="400" MinWidth="800" 
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        AllowsTransparency="False">
     <Window.Resources>
         <!-- Style cho Button -->
         <Style TargetType="Button">
@@ -175,7 +176,7 @@
                     <CheckBox IsChecked="{Binding Lowercase}" Content="To Lowercase"  Margin="0,10,0,0"/>
                     <CheckBox IsChecked="{Binding RemoveDiacritics}" Content="Remove Diacritics" Margin="0,10,0,0"/>
                     <CheckBox IsChecked="{Binding ISO19650}" Content="ISO19650 Report" Margin="0,10,0,0"/>
-                    <UserControls:DashBoard Height="250" Width="338" HorizontalAlignment="Right" Margin="0 -100 0 0" />
+                    <!--<UserControls:DashBoard Height="250" Width="338" HorizontalAlignment="Right" Margin="0 -100 0 0" />-->
                 </StackPanel>
                 <!-- ProgressBar với DataTrigger -->
                 <ProgressBar Height="20" Width="150">
