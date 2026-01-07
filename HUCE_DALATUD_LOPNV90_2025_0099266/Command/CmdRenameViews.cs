@@ -13,7 +13,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
     [Transaction(TransactionMode.Manual)]
 
-    public class CmdRenameLevels : IExternalCommand
+    public class CmdRenameViews : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData,
                           ref string message,

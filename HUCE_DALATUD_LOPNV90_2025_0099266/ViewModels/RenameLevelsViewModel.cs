@@ -1,10 +1,13 @@
 ﻿using Autodesk.Revit.DB;
+using LiveCharts;
+using LiveCharts.Wpf;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 {
@@ -21,7 +24,8 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         public string FilterText
         {
             get => _filterText;
-            set { if (_filterText != value) { _filterText = value; OnPropertyChanged(nameof(FilterText)); ApplyFilter(); } }
+            set { if (_filterText != value) { _filterText = value; OnPropertyChanged(nameof(FilterText)); ApplyFilter(); } ApplyFilter(); }
+
         }
 
         private string _filterCategory;
@@ -53,13 +57,25 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         public bool ToUppercase { get; set; }
         public bool Lowercase { get; set; }
         public bool RemoveDiacritics { get; set; }
-        public bool ISO19650 { get; set; }
+        private bool _iso19650;
+        public bool ISO19650
+        {
+            get => _iso19650;
+            set
+            {
+                if (_iso19650 != value)
+                {
+                    _iso19650 = value;
+                    OnPropertyChanged(nameof(ISO19650)); // báo cho UI biết đã thay đổi
+                }
+            }
+        }
 
         public RenameLevelsViewModel(Document doc)
         {
             _doc = doc;
             LoadLevels();
-
+            UpdateRenameStats(); // đảm bảo có dữ liệu ngay từ đầu
             FilterCommand = new RelayCommand(ApplyFilter);
             ShowAllCommand = new RelayCommand(ShowAll);
             CheckAllCommand = new RelayCommand(CheckAll);
@@ -148,8 +164,9 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
                         lv.Name = newName;
 
                         // Update UI
-                        item.TypeName = newName;
+                      
                         item.NewTypeName = newName;
+                        UpdateRenameStats(); // cập nhật biểu đồ sau khi preview tên mới
                     }
                     catch (Exception)
                     {
@@ -173,6 +190,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             if (!string.IsNullOrEmpty(AddPrefix)) name = AddPrefix + name;
             if (!string.IsNullOrEmpty(AddSuffix)) name = name + AddSuffix;
             // ...
+            UpdateRenameStats(); // cập nhật biểu đồ sau khi preview tên mới
             return name;
         }
 
@@ -181,9 +199,23 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             Categories.Clear();
             Categories.Add("Levels"); // Level chỉ có 1 category duy nhất
         }
+        public void UpdateRenameStats()
+        {
+            int success = ReLevels.Count(v => v.NewTypeName != v.TypeName);
+            int error = 0; // nếu bạn có danh sách lỗi riêng thì gán vào đây
+            int pending = ReLevels.Count(v => v.NewTypeName == v.TypeName);
 
-    
+            RenameStats = new SeriesCollection
+            {
+                new PieSeries { Title = "Rename Successful", Values = new ChartValues<int> { success }, Fill = Brushes.Blue },
+                new PieSeries { Title = "Error", Values = new ChartValues<int> { error }, Fill = Brushes.Red },
+                new PieSeries { Title = "Pending", Values = new ChartValues<int> { pending }, Fill = Brushes.Gold }
+            };
 
+            OnPropertyChanged(nameof(RenameStats));
+        }
+
+        public SeriesCollection RenameStats { get; set; }
         private void ShowAll() { foreach (var i in ReLevels) i.IsSelected = true; }
         private void CheckAll() { foreach (var i in ReLevels) i.IsSelected = true; }
         private void UncheckAll() { foreach (var i in ReLevels) i.IsSelected = false; }

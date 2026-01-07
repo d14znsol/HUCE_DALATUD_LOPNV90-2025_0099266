@@ -1,4 +1,6 @@
 ﻿using Autodesk.Revit.DB;
+using LiveCharts;
+using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266
 {
@@ -27,6 +30,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                 {
                     _filterText = value;
                     OnPropertyChanged(nameof(FilterText));
+                    ApplyFilter();
                 }
             }
         }
@@ -68,14 +72,25 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
         public bool ToUppercase { get; set; }
         public bool Lowercase { get; set; }
         public bool RemoveDiacritics { get; set; }
-        public bool ISO19650 { get; set; }
-
+        private bool _iso19650;
+        public bool ISO19650
+        {
+            get => _iso19650;
+            set
+            {
+                if (_iso19650 != value)
+                {
+                    _iso19650 = value;
+                    OnPropertyChanged(nameof(ISO19650)); // báo cho UI biết đã thay đổi
+                }
+            }
+        }
         public RenameFamiliesViewModel(Document doc)
         {
             _doc = doc ?? throw new ArgumentNullException(nameof(doc));
 
             LoadFamilies();
-
+            UpdateRenameStats();
             FilterCommand = new RelayCommand(ApplyFilter);
             ShowAllCommand = new RelayCommand(ShowAll);
             CheckAllCommand = new RelayCommand(CheckAll);
@@ -92,12 +107,13 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                 .OfClass(typeof(Family))
                 .Cast<Family>();
 
-            foreach (var families in collector)
+            foreach (var symbol in collector)
             {
-                var model = new FamiliesModels(families);
+                var model = new FamiliesModels(symbol);
                 ReFamilies.Add(model);
             }
         }
+        
 
         private void CollectCategories()
         {
@@ -152,6 +168,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
             return ReFamilies.Any(f => f.IsSelected);
         }
 
+
         private void ExecuteRename()
         {
             // Bắt transaction
@@ -162,15 +179,19 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
                 {
                     try
                     {
-                        var type = _doc.GetElement(item.SymbolId) as FamilySymbol;
-                        if (type == null) continue;
+                        var symbol = _doc.GetElement(item.SymbolId) as Family;
+                        if (symbol == null) continue;
 
                         string newName = ComputeNewName(item.TypeName);
-                        // Gán tên mới
-                        type.Name = newName;
-                        // Update preview
+
+                        // Đổi tên type
+                        symbol.Name = newName;
+
+                        // Update lại UI
                         item.NewTypeName = newName;
+                        UpdateRenameStats();
                     }
+
                     catch (Exception ex)
                     {
                         // Có thể log lỗi, notify user...
@@ -216,7 +237,23 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266
 
             return name;
         }
+        public void UpdateRenameStats()
+        {
+            int success = ReFamilies.Count(v => v.NewTypeName != v.TypeName);
+            int error = 0; // nếu bạn có danh sách lỗi riêng thì gán vào đây
+            int pending = ReFamilies.Count(v => v.NewTypeName == v.TypeName);
 
+            RenameStats = new SeriesCollection
+            {
+                new PieSeries { Title = "Rename Successful", Values = new ChartValues<int> { success }, Fill = Brushes.Blue },
+                new PieSeries { Title = "Error", Values = new ChartValues<int> { error }, Fill = Brushes.Red },
+                new PieSeries { Title = "Pending", Values = new ChartValues<int> { pending }, Fill = Brushes.Gold }
+            };
+
+            OnPropertyChanged(nameof(RenameStats));
+        }
+
+        public SeriesCollection RenameStats { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propName)
         {
