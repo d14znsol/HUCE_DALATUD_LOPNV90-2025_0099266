@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+using System.Windows.Media;
 
 namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 {
@@ -25,6 +28,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
                 {
                     _filterText = value;
                     OnPropertyChanged(nameof(FilterText));
+                    ApplyFilter();
                 }
             }
         }
@@ -66,13 +70,26 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         public bool ToUppercase { get; set; }
         public bool Lowercase { get; set; }
         public bool RemoveDiacritics { get; set; }
-        public bool ISO19650 { get; set; }
+        private bool _iso19650;
+        public bool ISO19650
+        {
+            get => _iso19650;
+            set
+            {
+                if (_iso19650 != value)
+                {
+                    _iso19650 = value;
+                    OnPropertyChanged(nameof(ISO19650)); // báo cho UI biết đã thay đổi
+                }
+            }
+        }
 
         public RenameFamilyTypesViewModel(Document doc)
         {
             _doc = doc ?? throw new ArgumentNullException(nameof(doc));
 
             LoadFamilyTypes();
+            UpdateRenameStats(); // cập nhật biểu đồ sau khi preview tên mới
 
             FilterCommand = new RelayCommand(ApplyFilter);
             ShowAllCommand = new RelayCommand(ShowAll);
@@ -168,6 +185,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
                         type.Name = newName;
                         // Update preview
                         item.NewTypeName = newName;
+                        UpdateRenameStats(); // cập nhật biểu đồ sau khi preview tên mới
                     }
                     catch (Exception ex)
                     {
@@ -214,6 +232,23 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
 
             return name;
         }
+        public void UpdateRenameStats()
+        {
+            int success = ReFamilyTypes.Count(v => v.NewTypeName != v.TypeName);
+            int error = 0; // nếu bạn có danh sách lỗi riêng thì gán vào đây
+            int pending = ReFamilyTypes.Count(v => v.NewTypeName == v.TypeName);
+
+            RenameStats = new SeriesCollection
+            {
+                new PieSeries { Title = "Rename Successful", Values = new ChartValues<int> { success }, Fill = Brushes.Blue },
+                new PieSeries { Title = "Error", Values = new ChartValues<int> { error }, Fill = Brushes.Red },
+                new PieSeries { Title = "Pending", Values = new ChartValues<int> { pending }, Fill = Brushes.Gold }
+            };
+
+            OnPropertyChanged(nameof(RenameStats));
+        }
+
+        public SeriesCollection RenameStats { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propName)

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             set
             {
                 if (_filterText != value) { _filterText = value; OnPropertyChanged(nameof(FilterText)); }
+                ApplyFilter();
             }
         }
 
@@ -66,8 +68,20 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         public string AddText { get; set; }
         public bool ToUppercase { get; set; }
         public bool Lowercase { get; set; }
-        public bool RemoveDiacritics { get; set; }
-        public bool ISO19650 { get; set; }
+        
+        private bool _iso19650;
+        public bool ISO19650
+        {
+            get => _iso19650;
+            set
+            {
+                if (_iso19650 != value)
+                {
+                    _iso19650 = value;
+                    OnPropertyChanged(nameof(ISO19650)); // báo cho UI biết đã thay đổi
+                }
+            }
+        }
         public string Category { get; set; }
 
 
@@ -159,16 +173,6 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
                         if (view == null) continue;
 
                         string newName = ComputeNewName(item.TypeName);
-                        if (ISO19650)
-                        {
-                            // 👉 Đổi tên theo chuẩn ISO19650
-                            newName = ComputeISO19650Name(view, item);
-                        }
-                        else
-                        {
-                            // 👉 Đổi tên theo logic thường (Prefix/Suffix…)
-                            newName = ComputeNewName(item.TypeName);
-                        }
 
                         // Revit không cho phép trùng tên View, cần try-catch
                         view.Name = newName;
@@ -188,6 +192,25 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
                 tx.Commit();
             }
         }
+       
+
+        public static string RemoveDiacritics(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return input;
+
+            string normalized = input.Normalize(NormalizationForm.FormD);
+            var builder = new StringBuilder();
+            foreach (char c in normalized)
+            {
+                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (uc != UnicodeCategory.NonSpacingMark)
+                {
+                    builder.Append(c);
+                }
+            }
+            return builder.ToString().Normalize(NormalizationForm.FormC);
+        }
+
 
 
         // --- Các hàm Logic xử lý chuỗi (ComputeNewName, ApplyFilter...) ---
@@ -199,24 +222,20 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
             // Để code chạy được ngay, mình để logic đơn giản
             if (!string.IsNullOrEmpty(AddPrefix)) name = AddPrefix + name;
             if (!string.IsNullOrEmpty(AddSuffix)) name = name + AddSuffix;
+           
+            if (ToUppercase)
+                name = name.ToUpper();
+
+            if (Lowercase)
+                name = name.ToLower();
+
+
             // ...
             UpdateRenameStats(); // cập nhật biểu đồ sau khi preview tên mới
+            
 
             return name;
-        }
-        private string ComputeISO19650Name(View view, ViewsModels item)
-        {
-            // Các mã này bạn có thể lấy từ config hoặc đặt cứng
-            string projectCode = "MaDuAn";   // mã dự án
-            string volume = "KhuVuc";      // khối/khu vực
-            string levelCode = item.Category == "FloorPlan" ? "L01" : "L00"; // ví dụ
-            string type = "View-Sheet";
-            string originator = "VaiTro";    // vai trò (Architect)
-            string number = item.ViewId.IntegerValue.ToString();
 
-
-
-            return $"{projectCode}-{originator}-{volume}-{levelCode}-{type}-{number}";
         }
 
         public void ApplyRenameRules()
@@ -261,6 +280,7 @@ namespace HUCE_DALATUD_LOPNV90_2025_0099266.ViewModels
         private void CheckAll() { foreach (var i in ReViews) i.IsSelected = true; }
         private void UncheckAll() { foreach (var i in ReViews) i.IsSelected = false; }
         private bool CanExecuteRename() { return ReViews.Any(x => x.IsSelected); }
+
         
 
         public void UpdateRenameStats()
